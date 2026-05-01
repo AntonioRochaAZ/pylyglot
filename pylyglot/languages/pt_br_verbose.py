@@ -30,7 +30,7 @@ dictionary = {
     "como":       "as",
     # Functions/classes/generators
     "classe":     "class",
-    "def":        "def",        
+    "função":        "def",        
     "retornar":   "return",     
     "lambda":     "lambda",
     "gerar":   "yield",      
@@ -38,14 +38,14 @@ dictionary = {
     "global":     "global",
     "nãolocal":   "nonlocal",
     "passar":     "pass",
-    "asinc":    "async",    
+    "asíncrona":    "async",    
     "esperar":    "await",    
-    "del":        "del",
+    "deletar":        "del",
     "com":        "with",
 
     #builtins: https://docs.python.org/3/library/functions.html
     #A
-    "abs":  "abs",
+    "absoluto":  "abs",
     "aiter":  "aiter", #
     "todos":  "all",
     "anext":  "anext",#
@@ -53,42 +53,42 @@ dictionary = {
     "ascii":  "ascii",
     #B
     "bin": "bin",#
-    "bool":         "bool",
+    "booleana":         "bool",
     "breakpoint":         "breakpoint",#
     "matrizbytes":  "bytearray",
     "bytes":        "bytes",
     #C
     "chamável":    "callable",
-    "car":    "chr",
+    "caracter":    "chr",
     "métododeclasse":    "classmethod",
     "compilar":    "compile",
     "complexo":     "complex",
     #D
-    "delatr": "delattr",
-    "dicio":        "dict",
+    "deletaratributo": "delattr",
+    "dicionário":        "dict",
     "dir":        "dir",#
     "divmod": "divmod",#
     #E
     "enumerar": "enumerate",
-    "aval": "eval",
-    "exec": "exec",
+    "avaliar": "eval",
+    "executar": "exec",
     #F
     "filtrar": "filter",
-    "flut":    "float",
+    "real":    "float",
     "format":  "format",
     "frozenset":    "frozenset",#
     #G
-    "buscaratr": "getattr",
+    "buscaratributo": "getattr",
     "globais": "globals",
     #H
-    "tematr": "hasattr",
+    "tematributo": "hasattr",
     "hash": "hash",
     "ajuda": "help",
-    "hex": "hex",
+    "hexadecimal": "hex",
     #I
-    "id": "id",
+    "identidade": "id",
     "input": "input",#
-    "int":          "int",
+    "inteiro":          "int",
     "éinstância": "isinstance",
     "ésubclasse": "issubclass",
     "iter": "iter",#
@@ -98,9 +98,9 @@ dictionary = {
     "locais": "locals",
     #M
     "mapa": "map",
-    "max": "max",
+    "máximo": "max",
     "memoryview": "memoryview",#
-    "min": "min",
+    "mínimo": "min",
     #N
     "próximo": "next",
     #O
@@ -109,7 +109,7 @@ dictionary = {
     "abrir":       "open",
     "ord":       "ord",
     #P
-    "pot":       "pow",
+    "potência":       "pow",
     "imprimir":   "print",
     "propriedade":   "property",
     #R
@@ -118,12 +118,12 @@ dictionary = {
     "inverter":    "reversed",
     "arredondar":    "round",
     #S
-    "conj":         "set",
-    "defatr":          "setattr",
+    "conjunto":         "set",
+    "definiratributo":          "setattr",
     "fatia":          "slice",
     "ordenar":          "sorted",
     "métodoestático":          "staticmethod",
-    "str":          "str",
+    "string":          "str",
     "soma":          "sum",
     "super":          "super",
     #T
@@ -136,5 +136,5 @@ dictionary = {
 
     #Others:
     "si": "self",
-    "__inic__": "__init__",
+    "__inicializar__": "__init__",
 }

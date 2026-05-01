@@ -19,10 +19,8 @@ class PylyglotLoader(importlib.abc.Loader):
     def exec_module(self, module):
         from .translator import translate_file
         
-        # translate the source
-        translated = translate_file(self.path, self.language)
+        translated = translate_file(self.path, input_language=self.language)  # ← named arg
         
-        # set standard module attributes Python expects
         module.__file__ = self.path
         module.__loader__ = self
         module.__package__ = module.__spec__.parent
@@ -55,9 +53,7 @@ class PylyglotFinder:
                 candidate = matches[0]
 
             try:
-                with open(candidate, "rb") as f:
-                    header = f.read(200).decode("utf-8", errors="replace")
-                language = detect_language(str(candidate), header)
+                language = detect_language(str(candidate))
             except OSError:
                 continue
 

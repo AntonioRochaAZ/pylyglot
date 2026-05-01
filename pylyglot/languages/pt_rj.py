@@ -5,49 +5,49 @@ dictionary = {
     "senãose":    "elif",
     "senão":      "else",
     # logic:
-    "Falso":      "False",
-    "Nenhum":     "None",       
-    "Verdadeiro": "True",
+    "Caô":      "False",
+    "Nada":     "None",       
+    "Namoral": "True",
     "e":          "and",
     "ou":         "or",
-    "não":        "not",
+    "nem":        "not",
     "é":          "is",
-    "em":         "in",
-    "assegurar":    "assert",     
+    "na":         "in",
+    "ã":    "assert",     
     # Loops:
-    "para":       "for",
+    "pra":       "for",
     "enquanto":   "while",
-    "continuar":  "continue",
-    "quebrar":    "break",
+    "bora":  "continue",
+    "partiu":    "break",
     # try/except/finally
-    "tentar":     "try",        
-    "exceto":     "except",     
-    "levantar":   "raise",      
+    "tenta":     "try",        
+    "carai":     "except",     
+    "fudeu":   "raise",      
     "finalmente": "finally",
     # imports
     "de":         "from",
-    "importar":   "import",
-    "como":       "as",
+    "chama":   "import",
+    "quenem":       "as",
     # Functions/classes/generators
     "classe":     "class",
-    "def":        "def",        
-    "retornar":   "return",     
+    "coé":        "def",        
+    "fechô":   "return",     
     "lambda":     "lambda",
-    "gerar":   "yield",      
+    "deu":   "yield",      
     # Others:
-    "global":     "global",
-    "nãolocal":   "nonlocal",
-    "passar":     "pass",
+    "gringo":     "global",
+    "paulista":   "nonlocal",
+    "passa":     "pass",
     "asinc":    "async",    
-    "esperar":    "await",    
-    "del":        "del",
+    "pera":    "await",    
+    "perdeu":        "del",
     "com":        "with",
 
     #builtins: https://docs.python.org/3/library/functions.html
     #A
     "abs":  "abs",
     "aiter":  "aiter", #
-    "todos":  "all",
+    "geral":  "all",
     "anext":  "anext",#
     "algum":  "any",
     "ascii":  "ascii",
@@ -79,28 +79,28 @@ dictionary = {
     "frozenset":    "frozenset",#
     #G
     "buscaratr": "getattr",
-    "globais": "globals",
+    "gringos": "globals",
     #H
     "tematr": "hasattr",
     "hash": "hash",
-    "ajuda": "help",
+    "nahumildade": "help",
     "hex": "hex",
     #I
     "id": "id",
     "input": "input",#
     "int":          "int",
-    "éinstância": "isinstance",
+    "étipo": "isinstance",
     "ésubclasse": "issubclass",
     "iter": "iter",#
     #L
     "tamanho": "len",
     "lista":        "list",
-    "locais": "locals",
+    "cariocas": "locals",
     #M
     "mapa": "map",
-    "max": "max",
+    "maior": "max",
     "memoryview": "memoryview",#
-    "min": "min",
+    "menó": "min",
     #N
     "próximo": "next",
     #O
@@ -110,10 +110,10 @@ dictionary = {
     "ord":       "ord",
     #P
     "pot":       "pow",
-    "imprimir":   "print",
+    "fala":   "print",
     "propriedade":   "property",
     #R
-    "intervalo":    "range",
+    "conta":    "range",
     "repr":    "repr",#
     "inverter":    "reversed",
     "arredondar":    "round",
@@ -125,7 +125,7 @@ dictionary = {
     "métodoestático":          "staticmethod",
     "str":          "str",
     "soma":          "sum",
-    "super":          "super",
+    "opai":          "super",
     #T
     "tupla":         "tuple",
     "tipo":         "type",
@@ -135,6 +135,6 @@ dictionary = {
     "zip": "zip",
 
     #Others:
-    "si": "self",
-    "__inic__": "__init__",
+    "eu": "self",
+    "__brota__": "__init__",
 }
