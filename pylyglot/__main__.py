@@ -1,7 +1,7 @@
 if __name__ == "__main__":
-
     import sys, os, re
-    from .translator import get_dictionary, run_file, translate_file, detect_language
+    from importlib.metadata import version, PackageNotFoundError 
+    from .translator import get_dictionary, translate_file, run_file 
     from .hooks import install
     install()
 
@@ -19,9 +19,10 @@ if __name__ == "__main__":
     for arg in args:
         if arg.startswith("--"): # option
             if "=" not in arg:
-                raise SyntaxError(f'Option {arg} specified incorrectly, use the syntax: "--option=value".')
-            option, value = arg.split("=")
-            options[option.removeprefix("--")] = value
+                options[arg.removeprefix("--")] = None
+            else:
+                option, value = arg.split("=")
+                options[option.removeprefix("--")] = value
         elif os.path.exists(arg) or ("translate" in options and filepath is not None):
             # In the first case, we have either the source or an already existing destination file.
             # In the second case, we have the --translate and the potential of a destination file which does not already exist 
@@ -36,20 +37,24 @@ if __name__ == "__main__":
         else:
             raise SyntaxError(f"Couldn't interpret argument: {arg}. Make sure you have provided the right paths.")
     
-    if filepath is None:
+    if filepath is None and "console" not in options:
         raise SyntaxError("Could not identify filepath in command line arguments.")
 
     if "input-language" in options:
         # Check if it is a valid language to translate to:
-        d = get_dictionary(options["input-language"], throw_exception=False)
-        if d is not None:
-            # It is a valid language str
-            input_language = options["input-language"]
+        if str(options["input-language"]).lower() == "none": options["input-language"] = None
+        if options["input-language"] is not None:
+            d = get_dictionary(options["input-language"], throw_exception=False)
+            if d is not None:
+                # It is a valid language str
+                input_language = options["input-language"]
+            else:
+                raise ValueError(
+                    f"Input language specified with --input-language, but value ({value}) does not correspond to an implemented language.\n"
+                    # f"Implemented languages: {os.listdir()}"
+                )
         else:
-            raise ValueError(
-                f"Input language specified with --input-language, but value ({value}) does not correspond to an implemented language.\n"
-                # f"Implemented languages: {os.listdir()}"
-            )
+            input_language = None
     # language is potentially none and will be infered either by 1. comment at 
     # the beginning of the file or 2. the file extension (in that order of preference).
     # if input_language is None:
@@ -58,6 +63,7 @@ if __name__ == "__main__":
     # Handle --translate option
     if "translate" in options:
         output_language = options.pop("translate")
+        if str(output_language).lower() == "none": output_language = None
         destination = options.pop("__destination__", None)
         if destination is None:
             raise SyntaxError("--translate requires a destination: python -m pylyglot --translate=language src dst")
@@ -65,7 +71,7 @@ if __name__ == "__main__":
         def translate_and_write(src_path: str, dst_path: str):
             """
             Translate file from one language to another, adding a line comment specifying its language 
-            at the beginning of it. 
+            at the beginning of it.
             """
 
             translated = translate_file(
@@ -76,7 +82,12 @@ if __name__ == "__main__":
                 errors=options["errors"]
             )
 
-            header = f"# pylyglot: {output_language} #\n"
+            try:
+                current_version = version("pylyglot")
+            except PackageNotFoundError:
+                current_version = "unknown"
+            
+            header = f"# pylyglot: {output_language} # version: {current_version} #\n"
             lines = translated.splitlines(keepends=True)
             # Check for the #!/bin/sh-type line and keep it if it is the case.
             if lines and lines[0].startswith("#!"):
@@ -102,7 +113,10 @@ if __name__ == "__main__":
                     relative = os.path.relpath(src_path, filepath)
 
                     # swap .py with .{language}.py in the relative path
-                    relative_translated = re.sub(r'\.py$', f'.{output_language}.py', relative)
+                    if output_language is not None:
+                        relative_translated = re.sub(r"(\.[a-z_]*)?\.py$", f'.{output_language}.py', relative)
+                    else:
+                        relative_translated = re.sub(r"(\.[a-z_]*)?\.py$", f'.py', relative)
                     # Create destination path:                    
                     dst_path = os.path.join(destination, relative_translated)
                     # Translate and write:
@@ -110,10 +124,18 @@ if __name__ == "__main__":
         else:
             # Input is NOT a folder
             # if destination doesn't already have the language extension, add it
-            if not destination.endswith(f'.{output_language}.py'):
-                base = re.sub(r'\.py$', '', destination)
-                destination = f'{base}.{output_language}.py'
+            if output_language is not None:
+                if not destination.endswith(f'.{output_language}.py'):
+                    base = re.sub(r"(\.[a-z_]*)?\.py$", '', destination) # Eventually correcting the extension
+                    destination = f'{base}.{output_language}.py'
+            else:
+                if not destination.endswith(f'.py'):
+                    destination = destination+".py"
+
             translate_and_write(filepath, destination)
+    elif "console" in options or filepath is None:
+        from .console import launch_console
+        launch_console(input_language or options.get("console"))
     else:
         # No other option specified: call run_file, which first translates it
         # into regular python and then runs it:

@@ -56,9 +56,10 @@ class PylyglotFinder:
                 language = detect_language(str(candidate))
             except OSError:
                 continue
-
+            
             if language is None:
-                return None
+                # Use python default
+                continue
 
             loader = PylyglotLoader(language, str(candidate))
             return importlib.util.spec_from_file_location(

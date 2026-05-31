@@ -15,7 +15,7 @@ dictionary = {
     "em":         "in",
     "assegurar":    "assert",     
     # Loops:
-    "para":       "for",
+    "paracada":       "for",
     "enquanto":   "while",
     "continuar":  "continue",
     "quebrar":    "break",
@@ -48,13 +48,13 @@ dictionary = {
     "abs":  "abs",
     "aiter":  "aiter", #
     "todos":  "all",
-    "anext":  "anext",#
+    "apróx":  "anext",#
     "algum":  "any",
     "ascii":  "ascii",
     #B
     "bin": "bin",#
     "bool":         "bool",
-    "breakpoint":         "breakpoint",#
+    "pontodeparada":         "breakpoint",#
     "matrizbytes":  "bytearray",
     "bytes":        "bytes",
     #C
@@ -76,9 +76,9 @@ dictionary = {
     "filtrar": "filter",
     "flut":    "float",
     "format":  "format",
-    "frozenset":    "frozenset",#
+    "conjfixo":    "frozenset",#
     #G
-    "buscaratr": "getattr",
+    "buscatr": "getattr",
     "globais": "globals",
     #H
     "tematr": "hasattr",
@@ -87,7 +87,7 @@ dictionary = {
     "hex": "hex",
     #I
     "id": "id",
-    "input": "input",#
+    "entrada": "input",#
     "int":          "int",
     "éinstância": "isinstance",
     "ésubclasse": "issubclass",
@@ -97,9 +97,9 @@ dictionary = {
     "lista":        "list",
     "locais": "locals",
     #M
-    "mapa": "map",
+    "mapear": "map",
     "max": "max",
-    "memoryview": "memoryview",#
+    "visdememória": "memoryview",#
     "min": "min",
     #N
     "próximo": "next",
@@ -116,14 +116,14 @@ dictionary = {
     "intervalo":    "range",
     "repr":    "repr",#
     "inverter":    "reversed",
-    "arredondar":    "round",
+    "arred":    "round",
     #S
     "conj":         "set",
     "defatr":          "setattr",
     "fatia":          "slice",
     "ordenar":          "sorted",
     "métodoestático":          "staticmethod",
-    "str":          "str",
+    "txt":          "str",
     "soma":          "sum",
     "super":          "super",
     #T
@@ -136,5 +136,209 @@ dictionary = {
 
     #Others:
     "si": "self",
-    "__inic__": "__init__",
+ 
+    #Dunder methods: https://www.pythonmorsels.com/every-dunder-method/#cheat-sheet
+    "__inic__":                 "__init__",
+    "__new__":                  "__new__",
+    "__del__":                  "__del__",
+    "__ig__":                   "__eq__",
+    "__desig__":                "__ne__",
+    "__hash__":                 "__hash__",
+    "__repr__":                 "__repr__",
+    "__menq__":                 "__lt__",
+    "__maiq__":                 "__gt__",
+    "__menig__":                "__le__",
+    "__maiig__":                "__ge__",
+    "__txt__":                  "__str__",
+    "__bool__":                 "__bool__",
+    "__int__":                  "__int__",
+    "__flut__":                 "__float__",
+    "__bytes__":                "__bytes__",
+    "__complexo__":             "__complex__",
+    "__format__":               "__format__",
+    "__entrar__":               "__enter__",
+    "__sair__":                 "__exit__",
+    "__tamanho__":              "__len__",
+    "__iter__":                 "__iter__",
+    "__buscaritem__":           "__getitem__",
+    "__defitem__":              "__setitem__",
+    "__delitem__":              "__delitem__",
+    "__contém__":               "__contains__",
+    "__invertido__":            "__reversed__",
+    "__próximo__":              "__next__",
+    "__faltando__":             "__missing__",
+    "__dica_tamanho__":         "__length_hint__",
+    "__chamar__":               "__call__",
+
+    # Arithmetic operations:
+    "__som__":                  "__add__",
+    "__sub__":                  "__sub__",
+    "__mul__":                  "__mul__",
+    "__divver__":               "__truediv__",
+    "__res__":                  "__mod__",
+    "__divchão__":              "__floordiv__",
+    "__pot__":                  "__pow__",
+    "__mulmat__":               "__matmul__",
+    "__e__":                    "__and__",
+    "__ou__":                   "__or__",
+    "__ouexc__":                "__xor__",
+    "__deslocdir__":            "__rshift__",
+    "__deslocesq__":            "__lshift__",
+    # Right versions:
+    "__somdir__":                  "__radd__",
+    "__subdir__":                  "__rsub__",
+    "__muldir__":                  "__rmul__",
+    "__divverdir__":               "__rtruediv__",
+    "__resdir__":                  "__rmod__",
+    "__divchãodir__":              "__rfloordiv__",
+    "__potdir__":                  "__rpow__",
+    "__mulmatdir__":               "__rmatmul__",
+    "__edir__":                    "__rand__",
+    "__oudir__":                   "__ror__",
+    "__ouexcdir__":                "__rxor__",
+    "__deslocdirdir__":            "__rrshift__",
+    "__deslocesqdir__":            "__rlshift__",
+    # Inplace versions:
+    "__isom__":                  "__iadd__",
+    "__isub__":                  "__isub__",
+    "__imul__":                  "__imul__",
+    "__idivver__":               "__itruediv__",
+    "__ires__":                  "__imod__",
+    "__idivchão__":              "__ifloordiv__",
+    "__ipot__":                  "__ipow__",
+    "__imulmat__":               "__imatmul__",
+    "__ie__":                    "__iand__",
+    "__iou__":                   "__ior__",
+    "__iouexc__":                "__ixor__",
+    "__ideslocdir__":            "__irshift__",
+    # unary:
+    "__neg__":                  "__neg__",
+    "__pos__":                  "__pos__",
+    "__invert__":               "__invert__",
+    # Builtin math functions:
+    "__divres__":               "__divmod__",
+    "__divresdir__":              "__rdivmod__",
+    "__abs__":                  "__abs__",
+    "__índice__":                "__index__",
+    "__arred__":                "__round__",
+    "__trunc__":                "__trunc__",
+    "__chão__":                "__floor__",
+    "__teto__":                 "__ceil__",
+    # Attribute
+    "__buscatr__":              "__getattr__",
+    "__buscatributo__":         "__getattribute__",
+    "__defatr__":              "__setattr__",
+    "__delatr__":              "__delattr__",
+    "__dir__":                  "__dir__",
+    # Metaprogramming section..... TODO
+
+    #Dunder attributes/constants: https://www.pythonmorsels.com/every-dunder-method/
+    "__nome__": "__name__",
+    "__módulo__": "__module__",
+    "__doc__": "__doc__",
+    "__classe__": "__class__",
+    "__dicio__": "__dict__",
+    "__slots__": "__slots__",               # TODO
+    "__match_args__": "__match_args__",     # TODO
+    "__orm__": "__mro__", # Method Resolution Order
+    "__bases__": "__bases__",
+    "__arquivo__": "__file__",
+    "__embrulhados__": "__wrapped__",
+    "__versão__": "__version__",
+    "__todos__": "__all__",
+    "__debug__": "__debug__",
+    # Functions... TODO
+
+    #Other builtins
+    "NãoImplementado": "NotImplemented",
+
+    # Exceptions:
+    "ExceçãoBase":              "BaseException",
+    "Exceção":                  "Exception",
+    "ErroDeAritmética":         "ArithmeticError",
+    "ErroDeBuffer":             "BufferError",
+    "ErroDeConsulta":           "LookupError",
+    # Concrete Exceptions:
+    "ErroDeAfirmação":          "AssertionError",
+    "ErroDeAtributo":           "AttributeError",
+    "ErroDeFimDeArquivo":       "EOFError",
+    "ErroDePontoFlutuante":     "FloatingPointError",
+    "SaídaDeGerador":           "GeneratorExit",
+    "ErroDeImportação":         "ImportError",
+    "ErroDeMóduloNãoEncontrado": "ModuleNotFoundError",
+    "ErroDeÍndice":             "IndexError",
+    "ErroDeChave":              "KeyError",
+    "InterrupçãoDeTeclado":     "KeyboardInterrupt",
+    "ErroDeMemória":            "MemoryError",
+    "ErroDeNome":               "NameError",
+    "ErroNãoImplementado":      "NotImplementedError",
+    "ErroDeSO":                 "OSError",                  #
+    "ErroDeOveflow":            "OverflowError",            
+    "ErroDeFinalizaçãoPython":  "PythonFinalizationError",
+    "ErroDeRecursão":           "RecursionError",
+    "ErroDeReferência":         "ReferenceError",
+    "ErroDeExecução":           "RuntimeError",
+    "PararIteração":            "StopIteration",
+    "PararIteraçãoAsinc":       "StopAsyncIteration",
+    "ErroDeSintaxe":            "SyntaxError",
+    "ErroDeIndentação":         "IndentationError",
+    "ErroDeTab":                "TabError",
+    "ErroDoSistema":            "SystemError",
+    "SaídaDoSistema":           "SystemExit",
+    "ErroDeTipo":               "TypeError",
+    "ErroDeVariávelNãoDefinida": "UnboundLocalError",
+    "ErroDeUnicode":            "UnicodeError",
+    "ErroDeCodificaçãoUnicode": "UnicodeEncodeError",
+    "ErroDeDecodificaçãoUnicode": "UnicodeDecodeError",
+    "ErroDeTraduçãoUnicode":    "UnicodeTranslateError",
+    "ErroDeValor":              "ValueError",
+    "ErroDeDivisãoPorZero":     "ZeroDivisionError",
+    "ErroDeAmbiente":           "EnvironmentError",
+    "ErroDeIO":                 "IOError",                 
+    "ErroDoWindows":            "WindowsError",
+    # OS Exceptions:
+    "ErroDeIOBloqueador":       "BlockingIOError",          
+    "ErroDeProcessoFilho":      "ChildProcessError",        #
+    "ErroDeConexão":            "ConnectionError",
+    "ErroDePipeQuebrado":       "BrokenPipeError",          
+    "ErroDeConexãoAbortada":    "ConnectionAbortedError",
+    "ErroDeConexãoRecusada":    "ConnectionRefusedError",
+    "ErroDeConexãoRedefinida":  "ConnectionResetError",
+    "ErroDeArquivoExistente":     "FileExistsError",
+    "ErroDeArquivoNãoEncontrado": "FileNotFoundError",
+    "ErroDeInterrupção":        "InterruptedError",
+    "ErroÉUmDiretório":        "IsADirectoryError",
+    "ErroNãoÉUmDiretório":     "NotADirectoryError",
+    "ErroDePermissão":          "PermissionError",
+    "ErroDeProcessoNãoEncontrado": "ProcessLookupError",
+    "ErroDeTimeout":            "TimeoutError",
+    # Warnings:
+    "Aviso":                    "Warning",
+    "AvisoDeUsuário":           "UserWarning",
+    "AvisoDeDepreciação":       "DeprecationWarning",           #
+    "AvisoDeDepreciaçãoPendente": "PendingDeprecatilonWarning",  #
+    "AvisoDeSintaxe":           "SyntaxWarning",
+    "AvisoDeExecução":          "RuntimeWarning",
+    "AvisoFuturo":              "FutureWarning",
+    "AvisoDeImportação":        "ImportWarning",
+    "AvisoDeUnicode":           "UnicodeWarning",
+    "AvisoDeCodificação":       "EncodingWarning",
+    "AvisoDeBytes":             "BytesWarning",
+    "AvisoDeRecurso":           "ResourceWarning",
+    # Exception Groups:
+    "GrupoDeExceções":          "ExceptionGroup",
+    "GrupoDeExceçõesBase":      "BaseExceptionGroup",
+
 }
+
+inv_traceback_dictionary = {
+    "Traceback (most recent call last):": "Traceback (chamada mais recente por último):",
+    "line": "linha",
+    # "in": "em",
+    "File": "Arquivo",
+    "During handling of the above exception, another exception occurred":
+        "Durante o tratamento da exceção acima, outra exceção ocorreu",
+    "The above exception was the direct cause of the following exception":
+        "A exceção acima foi a causa direta da seguinte exceção",
+}
+traceback_dictionary = {v: k for k, v in inv_traceback_dictionary.items()}

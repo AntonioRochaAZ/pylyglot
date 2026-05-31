@@ -15,7 +15,7 @@ dictionary = {
     "na":         "in",
     "ã":    "assert",     
     # Loops:
-    "pra":       "for",
+    "pracada":       "for",
     "enquanto":   "while",
     "bora":  "continue",
     "partiu":    "break",
@@ -97,7 +97,7 @@ dictionary = {
     "lista":        "list",
     "cariocas": "locals",
     #M
-    "mapa": "map",
+    "mapear": "map",
     "maior": "max",
     "memoryview": "memoryview",#
     "menó": "min",

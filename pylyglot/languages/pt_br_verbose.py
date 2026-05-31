@@ -15,7 +15,7 @@ dictionary = {
     "em":         "in",
     "assegurar":    "assert",     
     # Loops:
-    "para":       "for",
+    "paracada":       "for",
     "enquanto":   "while",
     "continuar":  "continue",
     "quebrar":    "break",
@@ -97,7 +97,7 @@ dictionary = {
     "lista":        "list",
     "locais": "locals",
     #M
-    "mapa": "map",
+    "mapear": "map",
     "máximo": "max",
     "memoryview": "memoryview",#
     "mínimo": "min",
