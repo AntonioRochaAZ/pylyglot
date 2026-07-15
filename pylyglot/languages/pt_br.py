@@ -15,7 +15,7 @@ dictionary = {
     "em":         "in",
     "assegurar":    "assert",     
     # Loops:
-    "paracada":       "for",
+    "paracada":    "for",
     "enquanto":   "while",
     "continuar":  "continue",
     "quebrar":    "break",
@@ -331,14 +331,29 @@ dictionary = {
 
 }
 
-inv_traceback_dictionary = {
-    "Traceback (most recent call last):": "Traceback (chamada mais recente por último):",
-    "line": "linha",
-    # "in": "em",
-    "File": "Arquivo",
+traceback_dictionary = {
+    "Traceback (most recent call last):": 
+        "Traceback (chamada mais recente por último):",
+    "line": 
+        "linha",
+    "File": 
+        "Arquivo",
     "During handling of the above exception, another exception occurred":
         "Durante o tratamento da exceção acima, outra exceção ocorreu",
     "The above exception was the direct cause of the following exception":
         "A exceção acima foi a causa direta da seguinte exceção",
+    "invalid syntax":
+        "sintaxe inválida",
 }
-traceback_dictionary = {v: k for k, v in inv_traceback_dictionary.items()}
+# traceback_dictionary = {v: k for k, v in inv_traceback_dictionary.items()}
+
+# PYLYGLOT INTERNAL MESSAGES
+# These are functions as the message may depend on specific information.
+# A dictionary connecting keys to functions is defined at the end.
+def pylyglot_version_warning(path, version, current_version):
+    """f"Pylyglot file {path} generated with version {version}, but you are using {current_version} for translation! Translation could be inconsistent."""
+    return f"O arquivo pylyglot {path} foi gerado com a versão {version}, mas a versão instalada é {current_version}! A tradução pode ser inconsistente."
+
+inv_internal_pylyglot_dict = {
+    "pylyglot_version_warning": pylyglot_version_warning
+}

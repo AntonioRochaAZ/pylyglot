@@ -1,1 +1,1 @@
-from .translator import get_dictionary
+from .translator import get_language_module

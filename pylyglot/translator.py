@@ -1,25 +1,27 @@
 import tokenize, io, os, importlib, re, sys, traceback
-from typing import Union
+from typing import Union, List
+from types import ModuleType
 from importlib.metadata import version as get_version, PackageNotFoundError 
 from warnings import warn
+import runpy
+from pathlib import Path
 
-def get_dictionary(language: str, throw_exception: bool = True, with_traceback: bool = False) -> Union[str, None]:
-    """Fetches the dictionary of the selected language.
+def get_language_module(language: str, throw_exception: bool = True) -> Union[ModuleType, None]:
+    """Get the python module associated to a language
 
     Args:
-        language: The name of the langauge.
-        throw_exception: Whether to throw an exception if the dictionary is not found. If ``False``, ``None`` is returned.
+        language: the language code.
+            .. todo::
+                Add link to supported language codes.
 
+        throw_exception: whether to throw an exception if the module is not found. Defaults to True.
+
+    Returns:
+        The associated python module or None if it is not found and ``throw_exception`` is False
     """
     try:
         module = importlib.import_module(f"pylyglot.languages.{language}")
-        if not with_traceback:
-            return module.dictionary
-        else:
-            dictionary = module.dictionary.copy()
-            tb_dictionary = module.traceback_dictionary.copy()
-            return dictionary | tb_dictionary
-
+        return module
     except Exception as e:
         if throw_exception:
             raise e
@@ -27,57 +29,92 @@ def get_dictionary(language: str, throw_exception: bool = True, with_traceback: 
             return None
 
 EXTENSION_RE = re.compile(r"\.(.*)\.py$")
-LANGUAGE_RE = re.compile(r"^\s*#\s*pylyglot:\s*([^#]*)#(?:\s*version:\s*([^#]*)#)?")
-KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$")
+LANGUAGE_RE  = re.compile(r"^\s*#\s*pylyglot:\s*([^#]*)#(?:\s*version:\s*([^#]*)#)?")
+SH_RE        = re.compile(r"^#!")
+KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$") # TODO: write documentation about this
 
 def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[str, None]:
     """Detects the language of a file.
-    This first checks for a comment in the first line of the file with the format "# pylyglot: language_name #".
+
+    This first checks for a comment in the first line of the file with the format "``# pylyglot: language_name #``"
+    (if a #!/bin... line is the first line, we check for the second line).
     If it is not found, then it checks for the file extension (.language_name.py).
 
+    .. todo::
+        Add link to a list of supported file extensions and the associated languages.
+
     Args:
-        path: Path to the file. 
+        path: Path to the file.
         encoding: Encoding used to read the source file before translation. Defaults to "utf-8".
         errors: Kwarg of bytes.decode(). Defaults to "strict"
-    
+
+    Raises:
+        ValueError: if the file extension not end in .py.
+
     Returns:
-        The name of the language or None, if not identified (which is the case if it is a regular python file).
+        The name of the language or ``None``, if it is a regular python file OR if the language is not identified.
     """
     with open(path, "rb") as f:
         source_bytes = f.read()
     source = source_bytes.decode(encoding, errors)
 
     # Check for the # pylyglot: lang_name # comment
-    for line in source.splitlines()[:2]:
-        match = LANGUAGE_RE.match(line.strip())
-        if match:
-            lang = match.group(1).strip()
-            if lang.lower() == "none": lang = None
-            version = match.group(2).strip() if match.group(2) else None
+    sh_bool = False
+    for line_idx, line in enumerate(source.splitlines()[:2]): # Loop through first 2 lines
+        match_lang = LANGUAGE_RE.match(line.strip())
+        match_sh   = SH_RE.match(line.strip())
+        if match_lang:
+            if not sh_bool and line_idx == 1:
+                # We found the pylyglot comment AFTER a non "#!" line
+                raise AssertionError(
+                    'Pylyglot header found in the second line of the file, but first line is not a "#!" type line. ' \
+                    'Pylyglot header must be the first line of the file (or the second only if a "#!" type line is the first).'
+                )
+            lang = match_lang.group(1).strip()
+            version = match_lang.group(2).strip() if match_lang.group(2) else None
             if version is not None:
                 try:
                     current_version = get_version("pylyglot")
                     if current_version != version:
-                        warn(f"Pylyglot file {path} generated with version {version}, but you are using {current_version} for translation! Translation could be inconsistent.")
+                        warn(f"Pylyglot file {path} generated with version {version}, but you are using {current_version} for translation! Translation could be inconsistent.") # TODO: translate this message
                 except PackageNotFoundError:
                     pass
             return lang
+        elif match_sh:
+            sh_bool = True
+            continue
     
     # If we got here, then we need to check for the extension:
     filename = os.path.basename(path)
-    match = EXTENSION_RE.search(filename)
-    if match:
-        lang = match.group(1)
+    match_lang = EXTENSION_RE.search(filename)
+    if match_lang:
+        lang = match_lang.group(1)
         return lang
+    else:
+        if not filename.endswith(".py"):
+            raise ValueError(f"Could not identify language of the following file: {path}") # TODO: translate this message
+        else:
+            return "en" # Regular python file
     
-    # Assume default python file:
-    return None
+    # Just in case:
+    raise RuntimeError(f"Could not detect language of file: {path}.\nEncoding and error strategy used: enconding: {encoding}, errors: {errors}.")
 
 def identify_renames(source: str, dictionary: dict) -> dict:
     """
     Returns a rename map {original_name: safe_name} for any user-defined
-    name that collides with a value of the dictionary 
-    (i.e. a keyword in the output language).
+    name that collides with a value of the dictionary (i.e. a keyword
+    in the output language).  
+    Renamings look like: ``f"{name}{number}_"``
+    This function is called during the translation process in
+    :func:`translator.translate_file`.
+
+    Args:
+        source: The source file (as a string).
+        dictionary: The dictionary which will be used for translating the 
+            source (so that name collisions can be identified).
+    
+    Returns:
+        A dictionary associating the original name of the variable with the new one.
     """
     # collect all names actually used in the source
     tokens = list(tokenize.generate_tokens(io.StringIO(source).readline))
@@ -103,8 +140,28 @@ def identify_renames(source: str, dictionary: dict) -> dict:
     
     return renames
 
-def translate_source(source: str, dictionary: dict, keep_lines: list[int] = None, debug: bool = False) -> str:
+def translate_source(source: str, dictionary: dict, keep_lines: List[int] = None, debug: bool = False) -> str:
+    """Does the actual translation from one language to another (including regular python).
 
+    This function is not supposed to be used standalon, as the dictionary
+    must be defined in advance according to the identified input language and the
+    desired output language.
+
+    Args:
+        source: The source code to be translated (as a string).
+        dictionary: The translation dictionary.
+        keep_lines: Optionally, a list with the indexes of lines which 
+            shouldn't be translated. This is necessary in some cases to avoid
+            name collisions during some imports. 
+
+            .. todo::
+                Add link to the documentation on this
+        
+        debug: If true, prints the list of tokens generated by the tokenize.generate_tokens call.
+
+    Returns:
+        str: The translated source code as a string.
+    """
     if keep_lines is None: keep_lines = list()
 
     tokens = tokenize.generate_tokens(io.StringIO(source).readline)
@@ -120,18 +177,18 @@ def translate_source(source: str, dictionary: dict, keep_lines: list[int] = None
     return tokenize.untokenize(result)
 
 
-def translate_file(path: str, input_language: str, output_language: str = None, encoding: str = "utf-8", errors="strict") -> str:
+def translate_file(path: str, input_language: str = None, output_language: str = "en", encoding: str = "utf-8", errors="strict") -> str:
     """Translates a file from one language to another.
 
     Args:
         path: Path to the file to be translated.
-        input_language: Language of the file. If None is passed, it will be automati
-        output_language: Language we want to translate to. None --> regular python.
+        input_language: Language of the file. If None is passed, it will be automatically detected.
+        output_language: Language we want to translate to. "en" --> regular python.
         encoding: Encoding used to read the source file before translation. Defaults to "utf-8".
         errors: Kwarg of bytes.decode(). Defaults to "strict"
 
     Returns:
-        str: The translated file as a string.
+        str: The translated source code as a string.
     """
     with open(path, "rb") as f:
         source_bytes = f.read()
@@ -139,21 +196,21 @@ def translate_file(path: str, input_language: str, output_language: str = None, 
     
     if input_language is None:
         input_language = detect_language(path, encoding, errors)
-    if input_language is None:
+    if input_language == "en":
         # Regular python file (assumed)
-        if output_language is None:
+        if output_language == "en":
             # already plain Python, nothing to translate
             return source  
         # Otherwise:
-        dictionary = {v: k for k, v in get_dictionary(output_language).items()}
+        dictionary = {v: k for k, v in get_language_module(output_language).dictionary.items()}
     else:
         # Input file not a regular python file, get dictionary: 
-        dictionary = get_dictionary(input_language)
-        if output_language is not None:
+        dictionary = get_language_module(input_language).dictionary
+        if output_language != "en":
             # We want to output to a different language, not regular python.
             # update dictionary so that this works:
             in_dictionary = dictionary.copy() # Avoid changing the default dictionary idk
-            inverse_out_dictionary = {v: k for k, v in get_dictionary(output_language).items()}
+            inverse_out_dictionary = {v: k for k, v in get_language_module(output_language).dictionary.items()}
             dictionary = {
                 key: inverse_out_dictionary.get(
                     in_dictionary[key], in_dictionary[key]
@@ -166,52 +223,80 @@ def translate_file(path: str, input_language: str, output_language: str = None, 
 
     # Check which lines must not be translated
     keep_lines = [
-        i + 1  # tokenize uses 1-based line numbers
+        i + 1  # tokenize line index starts at 1
         for i, line in enumerate(source.splitlines())
         if KEEP_LINE_RE.search(line) is not None
     ]
 
     return translate_source(source, dictionary, keep_lines=keep_lines) 
 
-FIXED_TRACEBACK_PHRASES = [
-    "Traceback (most recent call last):",
-    "During handling of the above exception, another exception occurred:",
-    "The above exception was the direct cause of the following exception:",
-]
+def translate_and_write(src_path: str, dst_path: str, output_language, **options):
+    """
+    Translate file from one language to another, adding a line comment specifying its language 
+    an pylyglot version at the beginning of it.
+    """
+    
+    translated = translate_file(
+        src_path, 
+        output_language=output_language, 
+        input_language=None,                # Will be inferred
+        encoding=options["encoding"],
+        errors=options["errors"]
+    )
+
+    try:
+        current_version = get_version("pylyglot")
+    except PackageNotFoundError:
+        current_version = "unknown"
+    
+    header = f"# pylyglot: {output_language} # version: {current_version} #\n"
+    lines = translated.splitlines(keepends=True)
+    # Check for the #!/bin/sh-type line and keep it if it is the case.
+    # Also check for the pylyglot header.
+    line_idx = 0
+    if lines[line_idx].startswith("#!"):
+        header = lines[line_idx] + header
+        line_idx += 1
+    if LANGUAGE_RE.match(lines[line_idx].strip()):
+        line_idx += 1 # Replace old header
+
+    output = header + "".join(lines[line_idx:])
+
+    # Make directory path if not existant:
+    os.makedirs(os.path.dirname(dst_path) or ".", exist_ok=True)
+    # Write file:
+    with open(dst_path, "w", encoding=options["output-encoding"]) as f:
+        f.write(output)
+    print(f"Translated: {src_path} into {dst_path}.")
+
 
 def translate_traceback_line(line: str, traceback_dictionary: dict) -> str:
     # handle fixed multi-word phrases first
-    for phrase in FIXED_TRACEBACK_PHRASES:
+    for phrase in traceback_dictionary.keys():
         if phrase in line and phrase in traceback_dictionary:
             line = line.replace(phrase, traceback_dictionary[phrase])
-    # then tokenize-based replacement for exception names and identifiers
-    try:
-        return translate_source(line, traceback_dictionary)
-    except Exception:
-        return line
+    # TODO: Must turn exceptions into their own dictionary actually.
+    return line
 
-def make_excepthook(inv_dictionary: dict):
-    def pylyglot_excepthook(type_, value, tb):
-        lines = traceback.format_exception(type_, value, tb)
+def make_excepthook(traceback_dictionary: dict):
+    def pylyglot_excepthook(typ, value, tb):
+        lines = traceback.format_exception(typ, value, tb)
         for line in lines:
-            print(translate_traceback_line(line, inv_dictionary),
-                  end='', file=sys.stderr)
+            print(translate_traceback_line(line, traceback_dictionary), end='', file=sys.stderr)
     return pylyglot_excepthook
 
 
-def run_file(path: str, input_language: str, **translate_file_kwargs) -> None:
-    """Runs a file written in non-standard python.
+def run_file(path: str, **translate_file_kwargs) -> None:
+    input_language = detect_language(path)
+    language_module = get_language_module(input_language)
+    traceback_dict = language_module.traceback_dictionary
+
+    # set excepthook for the main file
+    sys.excepthook = make_excepthook(traceback_dict)
     
-    Args:
-        path: the path to the file.
-        input_language: the name of the language the file is written in. 
-            If None is passed, it will be automatically identified in :func:`~translator.translate_file`.
-        **translate_file_kwargs: See kwargs of :func:`~translator.translate_file`.
-    
-    """
-    if input_language is None:
-        input_language = detect_language(path, **translate_file_kwargs)
-    translated_file = translate_file(path, input_language, output_language=None, **translate_file_kwargs)
-    full_dictionary = get_dictionary(input_language, with_traceback=True)
-    sys.excepthook = make_excepthook({v: k for k, v in full_dictionary.items()})
-    return exec(translated_file)
+    # run through normal machinery - loader handles translation
+    path = Path(path).resolve()
+    parent = path.parent
+    sys.path.insert(0, str(parent))
+    module_name = str(path.name).split(".")[0]
+    runpy.run_module(module_name, run_name="__main__", alter_sys=True)

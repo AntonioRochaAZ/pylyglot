@@ -1,76 +1,42 @@
-"""Made by Claude AI"""
-import sys
-import importlib
-import importlib.util
-from pathlib import Path
-from .translator import detect_language
+import sys, os
+import importlib.machinery
+import importlib.resources
 
-import importlib.abc
-import importlib.util
+from .translator import translate_file
 
-class PylyglotLoader(importlib.abc.Loader):
-    def __init__(self, language: str, path: str):
-        self.language = language
-        self.path = path
+class PylyglotSourceFileLoader(importlib.machinery.SourceFileLoader):
+    def get_code(self, _):
+        translated = translate_file(self.path)
+        return compile(translated, self.path, "exec")
 
-    def create_module(self, spec):
-        return None  # use default module creation
+class PylyglotFileFinder(importlib.machinery.FileFinder):
+    """Only defined for an "ininstance" call, no implementation."""
+    pass
 
-    def exec_module(self, module):
-        from .translator import translate_file
-        
-        translated = translate_file(self.path, input_language=self.language)  # ← named arg
-        
-        module.__file__ = self.path
-        module.__loader__ = self
-        module.__package__ = module.__spec__.parent
-        
-        code = compile(translated, self.path, "exec")
-        exec(code, module.__dict__)
+PYLYGLOT_SOURCE_SUFFIXES = None
+def get_source_suffixes():
+    global PYLYGLOT_SOURCE_SUFFIXES
+    if PYLYGLOT_SOURCE_SUFFIXES is None:
+        with importlib.resources.path("pylyglot", "languages") as path:
+            file_list = os.listdir(str(path))
 
+        file_list = [f".{f}" for f in file_list if f.endswith('.py') and not f.startswith("__")]
+        file_list.insert(0, ".py") # Regular python
+        PYLYGLOT_SOURCE_SUFFIXES = set(file_list) # Just in case
+    
+    return PYLYGLOT_SOURCE_SUFFIXES
 
-class PylyglotFinder:
-    def find_spec(self, fullname, path, target=None):
-        search_paths = path if path else sys.path
-        module_name = fullname.split(".")[-1]
-
-        for directory in search_paths:
-            directory = Path(directory)
-            
-            # first try exact match
-            candidate = directory / f"{module_name}.py"
-            
-            # if not found, look for {module_name}.*.py (e.g. pt_br_2.pt_br_simples.py)
-            if not candidate.exists():
-                matches = list(directory.glob(f"{module_name}.*.py"))
-                if not matches:
-                    continue
-                if len(matches) > 1:
-                    raise ImportError(
-                        f"Ambiguous import '{module_name}': multiple pylyglot files found in {directory}:\n"
-                        + "\n".join(str(m) for m in matches)
-                    )
-                candidate = matches[0]
-
-            try:
-                language = detect_language(str(candidate))
-            except OSError:
-                continue
-            
-            if language is None:
-                # Use python default
-                continue
-
-            loader = PylyglotLoader(language, str(candidate))
-            return importlib.util.spec_from_file_location(
-                fullname,
-                candidate,
-                loader=loader,
-            )
-        return None
-
-
+# DEFAULT_LANGUAGE = None
 def install():
-    """Insert the pylyglot finder into sys.meta_path."""
-    if not any(isinstance(f, PylyglotFinder) for f in sys.meta_path):
-        sys.meta_path.insert(0, PylyglotFinder())
+    """Insert the pylyglot finder into sys.path_hooks."""
+    if not any([isinstance(f, PylyglotFileFinder) for f in sys.path_hooks]):
+        extension_list = get_source_suffixes()
+
+        loader_details = [
+            (importlib.machinery.ExtensionFileLoader, importlib.machinery.EXTENSION_SUFFIXES),
+            (PylyglotSourceFileLoader, list(extension_list)),
+            (importlib.machinery.SourcelessFileLoader, importlib.machinery.BYTECODE_SUFFIXES),
+        ]
+
+        sys.path_hooks.insert(0, PylyglotFileFinder.path_hook(*loader_details))
+        sys.path_importer_cache.clear()
