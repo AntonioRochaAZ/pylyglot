@@ -33,6 +33,13 @@ LANGUAGE_RE  = re.compile(r"^\s*#\s*pylyglot:\s*([^#]*)#(?:\s*version:\s*([^#]*)
 SH_RE        = re.compile(r"^#!")
 KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$") # TODO: write documentation about this
 
+def detect_language_from_extension(filename) -> Union[str, False]:
+    match_lang = EXTENSION_RE.search(filename)
+    if match_lang:
+        lang = match_lang.group(1)
+        return lang
+    return False
+
 def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[str, None]:
     """Detects the language of a file.
 
@@ -86,9 +93,8 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[
     
     # If we got here, then we need to check for the extension:
     filename = os.path.basename(path)
-    match_lang = EXTENSION_RE.search(filename)
-    if match_lang:
-        lang = match_lang.group(1)
+    lang = detect_language_from_extension(filename)
+    if lang is not False:
         return lang
     else:
         if not filename.endswith(".py"):
@@ -180,6 +186,9 @@ def translate_source(source: str, dictionary: dict, keep_lines: List[int] = None
 def translate_file(path: str, input_language: str = None, output_language: str = "en", encoding: str = "utf-8", errors="strict") -> str:
     """Translates a file from one language to another.
 
+    .. todo::
+        Eventually find a way of automatically identifying the encoding,
+
     Args:
         path: Path to the file to be translated.
         input_language: Language of the file. If None is passed, it will be automatically detected.
@@ -240,8 +249,8 @@ def translate_and_write(src_path: str, dst_path: str, output_language, **options
         src_path, 
         output_language=output_language, 
         input_language=None,                # Will be inferred
-        encoding=options["encoding"],
-        errors=options["errors"]
+        encoding=options["input_encoding"],
+        errors=options["encoding_errors"]
     )
 
     try:
@@ -265,7 +274,7 @@ def translate_and_write(src_path: str, dst_path: str, output_language, **options
     # Make directory path if not existant:
     os.makedirs(os.path.dirname(dst_path) or ".", exist_ok=True)
     # Write file:
-    with open(dst_path, "w", encoding=options["output-encoding"]) as f:
+    with open(dst_path, "w", encoding=options["output_encoding"]) as f:
         f.write(output)
     print(f"Translated: {src_path} into {dst_path}.")
 
@@ -278,21 +287,24 @@ def translate_traceback_line(line: str, traceback_dictionary: dict) -> str:
     # TODO: Must turn exceptions into their own dictionary actually.
     return line
 
-def make_excepthook(traceback_dictionary: dict):
+def make_excepthook(language: str):
+    traceback_dictionary = get_language_module(language).traceback_dictionary
     def pylyglot_excepthook(typ, value, tb):
         lines = traceback.format_exception(typ, value, tb)
+        if typ is SyntaxError:
+            lines.append("PylyglotWarning: SyntaxErrors may come from the use of python keywords in code.\n") 
+                #< TODO: add this to the internal sentences to translate and add checks for python keywords in the line of code.
+        
         for line in lines:
             print(translate_traceback_line(line, traceback_dictionary), end='', file=sys.stderr)
     return pylyglot_excepthook
 
 
-def run_file(path: str, **translate_file_kwargs) -> None:
-    input_language = detect_language(path)
-    language_module = get_language_module(input_language)
-    traceback_dict = language_module.traceback_dictionary
+def run_file(path: str) -> None:
+    input_language  = detect_language(path)
 
     # set excepthook for the main file
-    sys.excepthook = make_excepthook(traceback_dict)
+    sys.excepthook = make_excepthook(input_language)
     
     # run through normal machinery - loader handles translation
     path = Path(path).resolve()

@@ -1,13 +1,11 @@
 if __name__ == "__main__":
-    import sys, os, re
+    import sys, os, re, json
     from warnings import warn
 
+    from .config import get_config_path, get_config, set_config, reset_config, options
     from .hooks import install
-    from .translator import translate_and_write, run_file 
+    from .translator import translate_and_write, run_file, detect_language_from_extension
     from .console import launch_console
-    
-    # Install hooks to allow imports from other languages:
-    install()
 
     args = sys.argv
 
@@ -19,13 +17,17 @@ if __name__ == "__main__":
     
     # Getting options:
     filepath = None
-    options  = {"verbose": False, "encoding": "utf-8", "errors": "strict", "output-encoding": "utf-8"}  # default values
     """
-    We also have two mutually exclusive options:
+    We also have a few mutually exclusive options:
     --translate=<output_language>
     --console=<console_input_language>
+    --setconfig <config_key>=<config_value>
+    --getconfig
+    --getconfigpath
+    --resetconfig
     """
-    for arg in args:
+    lookup_idx = 1
+    for arg_idx, arg in enumerate(args):
         if arg.startswith("--"): # option
             if "=" not in arg:
                 options[arg.removeprefix("--")] = None
@@ -44,11 +46,37 @@ if __name__ == "__main__":
             else:
                 # We found the translation destination file:
                 options["__destination__"] = os.path.abspath(arg)
+        elif args[arg_idx - lookup_idx] == "--setconfig":
+            option, value = arg.split("=")
+            set_config(option, value)
+            lookup_idx += 1
         else:
             raise SyntaxError(f"Couldn't interpret argument: {arg}. Make sure you have provided the right paths.") # TODO: convert this to a language dependent thing.
+
+
+    # Now that options have been updated, we can install
+    # the custom hooks to allow imports from other languages:
+    install()
+
+    # setconfig option must come first as it has alerady been run:
+    # TODO: add message saying that we are ignoring other options.
+    if "setconfig" in options:
+        sys.exit(0) # Exit program immediately
     
+    if "getconfig" in options:
+        print(json.dumps(get_config(), indent=4))
+        sys.exit(0) # Exit program immediately.
+
+    if "getconfigpath" in options:
+        print(get_config_path())
+        sys.exit(0) # Exit program immediately
+    
+    if "resetconfig" in options:
+        reset_config()
+        sys.exit(0)
+
     # Handling unexpected options:
-    if filepath is None and "console" not in options:
+    if filepath is None and "translate" in options:
         raise SyntaxError("Could not identify filepath in command line arguments.") # TODO: convert this to a language dependent thing.
 
     if "console" in options and "translate" in options:
@@ -56,17 +84,30 @@ if __name__ == "__main__":
 
     # Handle --translate option:
     if "translate" in options:
-        output_language = options.pop("translate")
-        if output_language is None: # Happens if the user just passes "--translate"
-            output_language = "en"
-            if options.get("verbose", "false").lower() == "true":
-                warn('No output language was specified for the translate option, translating to regular Python.') # TODO: convert this to a language dependent thing.
-
-        if str(output_language).lower() == "none": output_language = "en"
         destination = options.pop("__destination__", None)
         if destination is None:
             raise SyntaxError("--translate requires a destination: python -m pylyglot --translate=output_language source_path destination_path") # TODO: convert this to a language dependent thing.
 
+        output_language = options.pop("translate")
+        if output_language is None: # Happens if the user just passes "--translate"
+            # We can identify the language by the extension of the destination:
+            lang = detect_language_from_extension(destination)
+            if lang is not False:
+                # if str(options["verbose"]).lower() == "true":
+                warn(f'No output language was specified for the translate option. Language identified by the file extension: {lang}.') # TODO: convert this to a language dependent thing.
+                output_language = lang
+            else:
+                # if str(options["verbose"]).lower() == "true":
+                warn(f'No output language was specified for the translate option, translating to default language: {options["default_language"]}.') # TODO: convert this to a language dependent thing.
+                output_language = options["default_language"]
+        
+        if str(output_language).lower() == "none": 
+            print(
+                f'PylyglotWarning: No output language specified, using default langauge: {options["default_language"]}.'
+                '\nYou can change the default language by running "python -m pylyglot --setconfig default_langauge=language_code".'
+            ) # TODO: translate (potentially have a language name instead of just the code).
+            output_language = options["default_language"]
+        
         if os.path.isdir(filepath):
             if os.path.exists(destination):
                 if not os.path.isdir(destination):
@@ -103,13 +144,17 @@ if __name__ == "__main__":
             # Finally, translate and write to file:
             translate_and_write(filepath, destination, output_language, **options)
         
-    elif "console" in options or filepath is None:
-        launch_console(options.pop("console"))
+    elif "console" in options:
+        if str(options["console"]).lower() == "none":
+            print(
+                f'PylyglotWarning: No output language specified, using default langauge: {options["default_language"]}.'
+                '\nYou can change the default language by running "python -m pylyglot --setconfig default_langauge=language_code".'
+            ) # TODO: translate (potentially have a language name instead of just the code).
+            options["console"] = options["default_language"]
+        launch_console(options["console"])
     else:
         # No other option specified: call run_file, which first translates it
         # into regular python and then runs it:
-        run_file(
-            filepath, 
-            encoding=options["encoding"],
-            errors=options["errors"]
-        )
+        # TODO: encoding and error options must go into the Loader and console 
+        # translation options defined. Must define a global variable for this, then
+        run_file(filepath)

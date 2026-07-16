@@ -7,9 +7,8 @@ class PylyglotConsole(code.InteractiveConsole):
     def __init__(self, language: str, **kwargs):
         super().__init__(**kwargs)
         self.language = language
-        self.module = get_language_module(language)
-        self.dictionary = self.module.dictionary
-        sys.excepthook = make_excepthook(self.module.traceback_dictionary)
+        self.dictionary = get_language_module(language).dictionary
+        sys.excepthook = make_excepthook(language)
 
     def runsource(self, source, filename="<input>", symbol="single"):
         translated = translate_source(source, self.dictionary)
@@ -17,14 +16,6 @@ class PylyglotConsole(code.InteractiveConsole):
 
 
 def launch_console(language: str):
-    # I don't like this feature but I am leaving this as a comment because 
-    # I like that it exists 
-    # try:
-    #     import readline
-    #     readline.parse_and_bind("tab: complete")
-    # except ImportError:
-    #     pass
-
     console = PylyglotConsole(language, locals={})
     banner = (
         f"Pylyglot {get_version("pylyglot")} {language} interpreter\n"

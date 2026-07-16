@@ -3,10 +3,15 @@ import importlib.machinery
 import importlib.resources
 
 from .translator import translate_file
+from .config import options
 
 class PylyglotSourceFileLoader(importlib.machinery.SourceFileLoader):
+
     def get_code(self, _):
-        translated = translate_file(self.path)
+        translated = translate_file(
+            self.path, encoding=options["input_encoding"], 
+            errors=options["encoding_errors"]
+        )
         return compile(translated, self.path, "exec")
 
 class PylyglotFileFinder(importlib.machinery.FileFinder):
