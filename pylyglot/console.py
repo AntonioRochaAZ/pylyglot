@@ -18,7 +18,7 @@ class PylyglotConsole(code.InteractiveConsole):
 def launch_console(language: str):
     console = PylyglotConsole(language, locals={})
     banner = (
-        f"Pylyglot {get_version("pylyglot")} {language} interpreter\n"
+        f"Pylyglot {get_version('pylyglot')} {language} interpreter\n"
         f"Python {sys.version}"
     )
     console.interact(banner=banner)#, exitmsg=f"Saindo do Pylyglot {language}.")
