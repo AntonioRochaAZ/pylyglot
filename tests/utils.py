@@ -8,8 +8,9 @@ def get_all_language_modules() -> List[ModuleType]:
     with importlib.resources.path("pylyglot", "languages") as path:
         language_list = os.listdir(str(path))
 
-    language_list.remove("__pycache__")
-    language_list.remove("__init__.py")
+    entries_to_ignore = [file for file in language_list if file.startswith("__") or file.endswith("__")]
+    for entry in entries_to_ignore:
+        language_list.remove(entry)
 
     module_list = [get_language_module(lang.removesuffix(".py")) for lang in language_list]
     return module_list
