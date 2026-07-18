@@ -1,3 +1,8 @@
+# dictionary = dict()
+exception_dictionary = dict()
+traceback_dictionary = dict()
+pylyglot_internal_messages = dict()
+
 dictionary = {
     # keyword.kwlist (from keyword import kwlist)
     # if/else    

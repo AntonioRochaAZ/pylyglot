@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import importlib.resources
 
 # A little harder for people to change if it is in code:
 default_config = {
@@ -10,7 +11,8 @@ default_config = {
     "output_encoding": "utf-8"
 }
 
-config_path = Path(__file__).resolve().parent/"config.json"
+with importlib.resources.path("pylyglot", "config.json") as path:
+    config_path = Path(path).resolve()
 
 def get_config_path():
     return config_path
@@ -26,22 +28,20 @@ def save_config(config):
 
 
 def set_config(key, value):
+    from .translator import get_pylyglot_message
     config = get_config()
 
     if key not in config:
-        raise KeyError(
-            f'"{key}" not in pylyglot config file.'
-            '\nTo see options, run "python -m pylyglot --getconfig"'
-            '\nTo get the path to the config.json, run "python -m pylyglot --getconfigpath"'
-        ) # TODO: translate
+        raise KeyError(get_pylyglot_message(options["default_language"], "config_key_error", key=key)) 
 
     old_value = config[key]
     config[key] = value
     save_config(config)
-    print(f"Successfully updated config option {key} from {old_value} to {value}.") # TODO: Translate
+    print(get_pylyglot_message(options["default_language"], "config_set_success", key=key, old_value=old_value, value=value))
 
 def reset_config():
+    from .translator import get_pylyglot_message
     save_config(default_config)
-    print(f"Config was reset to defaults.") # TODO: translate
+    print(get_pylyglot_message(options["default_language"], "config_reset_success"))
 
 options = get_config() # Session options, initialized with user config.

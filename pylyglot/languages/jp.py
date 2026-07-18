@@ -1,3 +1,8 @@
+dictionary = dict()
+exception_dictionary = dict()
+traceback_dictionary = dict()
+pylyglot_internal_messages = dict()
+
 # Disclaimer: made by ChatGPT
 dictionary = {
     # if/else    

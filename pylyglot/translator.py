@@ -6,6 +6,13 @@ from warnings import warn
 import runpy
 from pathlib import Path
 
+from .config import options
+
+EXTENSION_RE = re.compile(r"\.(.*)\.py$")
+LANGUAGE_RE  = re.compile(r"^\s*#\s*pylyglot:\s*([^#]*)#(?:\s*version:\s*([^#]*)#)?")
+SH_RE        = re.compile(r"^#!")
+KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$") # TODO: write documentation about this
+
 def get_language_module(language: str, throw_exception: bool = True) -> Union[ModuleType, None]:
     """Get the python module associated to a language
 
@@ -28,10 +35,14 @@ def get_language_module(language: str, throw_exception: bool = True) -> Union[Mo
         else:
             return None
 
-EXTENSION_RE = re.compile(r"\.(.*)\.py$")
-LANGUAGE_RE  = re.compile(r"^\s*#\s*pylyglot:\s*([^#]*)#(?:\s*version:\s*([^#]*)#)?")
-SH_RE        = re.compile(r"^#!")
-KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$") # TODO: write documentation about this
+def get_pylyglot_message(_language, _key, **_kwargs):
+    module = get_language_module(_language)
+    pim = module.pylyglot_internal_messages
+    if _key not in pim:
+        # English fallback:
+        module = get_language_module(_language)
+        pim = module.pylyglot_internal_messages
+    return pim[_key].format(**_kwargs)
 
 def detect_language_from_extension(filename) -> Union[str, False]:
     match_lang = EXTENSION_RE.search(filename)
@@ -83,7 +94,8 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[
                 try:
                     current_version = get_version("pylyglot")
                     if current_version != version:
-                        warn(f"Pylyglot file {path} generated with version {version}, but you are using {current_version} for translation! Translation could be inconsistent.") # TODO: translate this message
+                        # Change default_language to output_language (must store it in options!)
+                        warn(get_pylyglot_message(options["default_language"], "translator_version_warning", path=path, version=version, current_version=current_version))
                 except PackageNotFoundError:
                     pass
             return lang
@@ -98,7 +110,7 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[
         return lang
     else:
         if not filename.endswith(".py"):
-            raise ValueError(f"Could not identify language of the following file: {path}") # TODO: translate this message
+            raise ValueError(get_pylyglot_message(options["default_language"], "translator_language_id_fail", path=path))
         else:
             return "en" # Regular python file
     
@@ -292,8 +304,8 @@ def make_excepthook(language: str):
     def pylyglot_excepthook(typ, value, tb):
         lines = traceback.format_exception(typ, value, tb)
         if typ is SyntaxError:
-            lines.append("PylyglotWarning: SyntaxErrors may come from the use of python keywords in code.\n") 
-                #< TODO: add this to the internal sentences to translate and add checks for python keywords in the line of code.
+            lines.append(get_pylyglot_message(options["default_language"], "translator_syntaxerror")) 
+                #< TODO: add checks for python keywords in the line of code.
         
         for line in lines:
             print(translate_traceback_line(line, traceback_dictionary), end='', file=sys.stderr)
