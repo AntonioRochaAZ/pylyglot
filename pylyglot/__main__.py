@@ -91,7 +91,7 @@ if __name__ == "__main__":
         if str(output_language).lower() == "none":
             # We can identify the language by the extension of the destination:
             lang = detect_language_from_extension(destination)
-            if lang is not False :
+            if lang is not None :
                 if str(options["verbose"]).lower() == "true":
                     warn(get_pylyglot_message(options["default_language"], "main_no_output_language_verbose", lang=lang))
                 output_language = lang

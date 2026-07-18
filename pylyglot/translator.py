@@ -44,12 +44,12 @@ def get_pylyglot_message(_language, _key, **_kwargs):
         pim = module.pylyglot_internal_messages
     return pim[_key].format(**_kwargs)
 
-def detect_language_from_extension(filename) -> Union[str, False]:
+def detect_language_from_extension(filename) -> Union[str, None]:
     match_lang = EXTENSION_RE.search(filename)
     if match_lang:
         lang = match_lang.group(1)
         return lang
-    return False
+    return None
 
 def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[str, None]:
     """Detects the language of a file.
@@ -106,7 +106,7 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[
     # If we got here, then we need to check for the extension:
     filename = os.path.basename(path)
     lang = detect_language_from_extension(filename)
-    if lang is not False:
+    if lang is not None:
         return lang
     else:
         if not filename.endswith(".py"):
