@@ -136,6 +136,9 @@ dictionary = {
 
     #Others:
     "si":       "self",
+
+    #Other builtins
+    "NãoImplementado": "NotImplemented",
  
     #Dunder methods: https://www.pythonmorsels.com/every-dunder-method/#cheat-sheet
     "__inic__":                 "__init__",
@@ -298,53 +301,51 @@ dictionary = {
     "__globais__":      "__globals__",
     "__fechamento__":   "__closure__",
     
-    "": "__qualname__",
-    "": "__annotations__",
-    "": "__type_params__",
+    # "": "__qualname__",
+    # "": "__annotations__",
+    # "": "__type_params__",
 
-    "": "__static_attributes__",
-    "": "__firstlineno__",
+    # "": "__static_attributes__",
+    # "": "__firstlineno__",
 
-    "": "__func__",
-    "": "__self__",
+    # "": "__func__",
+    # "": "__self__",
 
-    "": "__loader__",
-    "": "__package__",
-    "": "__spec__",
-    "": "__cached__",
+    # "": "__loader__",
+    # "": "__package__",
+    # "": "__spec__",
+    # "": "__cached__",
 
     "__caminho__":      "__path__",
 
-    "": "__traceback__",
-    "": "__notes__",
-    "": "__context__",
-    "": "__cause__",
-    "": "__suppress_context__",
+    # "": "__traceback__",
+    # "": "__notes__",
+    # "": "__context__",
+    # "": "__cause__",
+    # "": "__suppress_context__",
 
-    "": "__objclass__",
-    "": "__classcell__",
-    "": "__weakref__",
+    # "": "__objclass__",
+    # "": "__classcell__",
+    # "": "__weakref__",
 
-    "": "__origin__",
-    "": "__args__",
-    "": "__parameters__",
-    "": "__unpacked__",
+    # "": "__origin__",
+    # "": "__args__",
+    # "": "__parameters__",
+    # "": "__unpacked__",
 
-    "": "__stdout__",
-    "": "__stderr__",
+    # "": "__stdout__",
+    # "": "__stderr__",
 
-    "": "__covariant__",
-    "": "__contravariant__",
-    "": "__infer_variance__",
-    "": "__bound__",
-    "": "__constraints__",
-    "": "__import__",
-    "": "__builtins__",
+    # "": "__covariant__",
+    # "": "__contravariant__",
+    # "": "__infer_variance__",
+    # "": "__bound__",
+    # "": "__constraints__",
+    # "": "__import__",
+    # "": "__builtins__",
     "__futuro__":   "__future__",
     "__main__":     "__main__",
 
-    #Other builtins
-    "NãoImplementado": "NotImplemented",
 }
 
 exception_dictionary = {
@@ -427,7 +428,6 @@ exception_dictionary = {
 
 }
 
-dictionary.update(exception_dictionary)
 
 # traceback_dict: English --> Your language
 traceback_dictionary = {
@@ -445,7 +445,6 @@ traceback_dictionary = {
         "sintaxe inválida",
 }
 
-traceback_dictionary.update({v: k for k, v in exception_dictionary.items()})
 
 # PYLYGLOT INTERNAL MESSAGES
 pylyglot_internal_messages = {
@@ -510,3 +509,6 @@ pylyglot_internal_messages = {
         # "Pylyglot Warning: SyntaxErrors may come from the use of python keywords in code.\n",
         "Aviso pylyglot: ErroDeSintaxe pode vir do uso de termos python (em inglês) em seu código.\n",
 }
+
+dictionary.update(exception_dictionary)
+traceback_dictionary.update({v: k for k, v in exception_dictionary.items()})

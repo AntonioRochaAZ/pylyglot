@@ -1,5 +1,3 @@
-dictionary = dict()
-exception_dictionary = dict()
 traceback_dictionary = dict()
 pylyglot_internal_messages = dict()
 
@@ -167,3 +165,9 @@ dictionary = {
     "自己参照":     "self",
     "__初期化__":   "__init__",
 }
+
+exception_dictionary = {
+    "値エラー": "ValueError"
+}
+
+dictionary = dictionary | exception_dictionary
