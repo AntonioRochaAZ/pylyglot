@@ -1,9 +1,18 @@
+.. _contributing:
+
 Contributing
 =============
 
 We are looking for contributors for revising translations which
-were AI generated (currently all except for french and portuguese),
+were AI generated (currently all except for French, Portuguese and English),
 propose bug fixes and propose translations for new languages!
+
+AI disclaimer
+-------------
+
+Contributors MUST acknowledge in their issue if AI was used at any point in
+their contribution and how. :ref:`Check our dedicated page on the use of AI <ai>` to
+see how the use of AI is allowed.
 
 
 Adding a new language

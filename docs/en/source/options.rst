@@ -82,6 +82,27 @@ alongside them):
 ``--resetconfig``
     Resets all settings in the configuration file to defaults.
 
+Runtime options
+---------------
+
+The config options (:ref:`listed here <configs>`) can be specified
+in the command line for the current session only without changing
+the config.
+
+Other options: 
+
+``--allow_renames``
+    .. danger::
+        Usage of this option is discouraged.
+        Check this :ref:`dedicated section <security_name_clashing>` of our :ref:`security page <security>`. 
+
+    This option can be passed with the value ``true`` for allowing
+    pylyglot to automatically rename (with warnings) variables which
+    are automatically identified as clashing with terms in the
+    destination language. You can also specify ``no_warnings`` to suppress
+    warnings.
+    
+
 .. 
     Other flags
     -----------

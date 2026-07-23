@@ -1,3 +1,5 @@
+.. _en_index:
+
 Pylyglot: write and run python code on your native language
 ===========================================================
 
@@ -21,12 +23,24 @@ supported languages. The language is automatically recognized by the file extens
 ``.language_code.py`` (e.g. portuguese_module **.pt.py**).
 
 .. toctree::
+    :caption: Pylyglot 
+    :maxdepth: 1
 
     Installation <installation>
     Features <features>
-    Command line options <features>
+    Command line options <options>
     Available languages <languages>
     Security <security>
     Settings (configs) <configs>
+    On the use of AI <ai>
     Contributing <contributing>
     Contributors <contributors>
+
+.. toctree::
+    :caption: Code
+    :maxdepth: 1
+
+    pylyglot/config
+    pylyglot/console
+    pylyglot/hooks
+    pylyglot/translator
