@@ -31,12 +31,20 @@ def set_config(key, value):
     from .translator import get_pylyglot_message
     config = get_config()
 
+    if key == "allow_renames":
+        raise KeyError(get_pylyglot_message(options["default_language"], "config_allow_renames"))
+
     if key not in config:
         raise KeyError(get_pylyglot_message(options["default_language"], "config_key_error", key=key)) 
 
     old_value = config[key]
     config[key] = value
     save_config(config)
+
+    if key == "default_language":
+        # A little treat :)
+        options["default_language"] = value
+
     print(get_pylyglot_message(options["default_language"], "config_set_success", key=key, old_value=old_value, value=value))
 
 def reset_config():

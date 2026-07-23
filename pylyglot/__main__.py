@@ -27,6 +27,7 @@ if __name__ == "__main__":
     --resetconfig
     """
     lookup_idx = 1
+    options["allow_renames"] = "false" # You cannot set this in the config.
     for arg_idx, arg in enumerate(args):
         if arg.startswith("--"): # option
             if "=" not in arg:

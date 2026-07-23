@@ -37,7 +37,9 @@ pylyglot_internal_messages = {
     "config_set_success":
         'Successfully updated config option "{key}" from "{old_value}" to "{value}".',
     "config_reset_success":
-        "Config was reset to defaults.",
+        "Config was reset to defaults. To check it, run: python -m pylyglot --getconfig",
+    "config_allow_renames":
+        'It is not allowed to set a default value for the "allow_renames" option.',
     
     # translator.py:
     "translator_version_warning": 
@@ -46,4 +48,16 @@ pylyglot_internal_messages = {
         "Could not identify language of the following file: {path}",
     "translator_syntaxerror":
         "Pylyglot warning: SyntaxErrors may come from the use of python keywords in code.\n",
+    "translator_rename_dict":
+        "File being translated ({path}) contains the following words present in the destination language: {rename_keys}."
+        "\nPylyglot is able to automatically rename these variables and run the file, but this may not cause the desired behaviour "
+        "and THIS MAY EXPOSE YOU TO SECURITY RISKS."
+        "\nModules imported by this module may suffer from the same issue and not have been reported in this message."
+        "\nFor these reasons, it is highly recommended that the user rename these variables manually."
+        "\nTo allow pylyglot to run the file and its imports regardless, with just a warning, you can pass the option --allow_renames=true (this option cannot be"
+        "set to the config and must be specified for every new run).",
+
+    # hooks.py:
+    "hooks_duplicate_module":
+        'Error when trying to import module "{fullname}": Multiple modules with the same name in the same directory ({dir_path}): {potential_files}.',
 }

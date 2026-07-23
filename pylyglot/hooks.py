@@ -1,8 +1,8 @@
-import sys, os
+import sys, os, re
 import importlib.machinery
 import importlib.resources
 
-from .translator import translate_file
+from .translator import translate_file, get_pylyglot_message
 from .config import options
 
 class PylyglotSourceFileLoader(importlib.machinery.SourceFileLoader):
@@ -16,18 +16,24 @@ class PylyglotSourceFileLoader(importlib.machinery.SourceFileLoader):
 
 class PylyglotFileFinder(importlib.machinery.FileFinder):
     """Only defined for an "ininstance" call, no implementation."""
-    pass
+    def find_spec(self, fullname, target = ...):
+        potential_files = [
+            file for file in os.listdir(self.path)
+            if  (file.split(".")[0] == fullname) \
+            and (file.split(".")[-1] == "py")
+        ]
+        if len(potential_files) > 1:
+            raise ImportError(get_pylyglot_message(options["default_language"], "hooks_duplicate_module", fullname=fullname, dir_path=self.path, potential_files=potential_files))        
+        return super().find_spec(fullname, target)
 
-PYLYGLOT_SOURCE_SUFFIXES = None
 def get_source_suffixes():
-    global PYLYGLOT_SOURCE_SUFFIXES
-    if PYLYGLOT_SOURCE_SUFFIXES is None:
-        with importlib.resources.path("pylyglot", "languages") as path:
-            file_list = os.listdir(str(path))
 
-        file_list = [f".{f}" for f in file_list if f.endswith('.py') and not f.startswith("__")]
-        file_list.insert(0, ".py") # Regular python
-        PYLYGLOT_SOURCE_SUFFIXES = set(file_list) # Just in case
+    with importlib.resources.path("pylyglot", "languages") as path:
+        file_list = os.listdir(str(path))
+
+    file_list = [f".{f}" for f in file_list if f.endswith('.py') and not f.startswith("__")]
+    file_list.insert(0, ".py") # Regular python
+    PYLYGLOT_SOURCE_SUFFIXES = set(file_list) # Just in case
     
     return PYLYGLOT_SOURCE_SUFFIXES
 

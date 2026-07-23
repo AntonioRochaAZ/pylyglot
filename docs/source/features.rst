@@ -31,6 +31,11 @@ first line of your module, and have the pylyglot comment as the second line!
     The comment on the first line of code takes precedence over the
     file extension.
 
+.. note::
+    If there are two files with the same name but different extensions
+    in the directory (e.g. main.py and main.fr.py), an ``ImportError``
+    is triggered.
+
 
 Running a multilingual code base seamlessly
 -------------------------------------------
@@ -81,10 +86,19 @@ section.
 Security against name clashes and English fallback
 --------------------------------------------------
 
-If a (non-english) pylyglot file contains a variable name which clashes
+If a pylyglot file contains a variable name which clashes
 with an english keyword (or a destination language keyword, if translating
 from one language to another), its name is altered during translation to avoid
-syntax errors.
+syntax errors (for example ``if --> if0_``).
+
+.. versionchanged:: 0.7.0
+
+    .. danger::
+        
+        Although this feature still exists, an error is thrown when this 
+        happens instead, recommending the user to manually rename the variables. 
+        
+        Read :ref:`the dedicated section in our security page <security_name_clashing>` to learn more.
 
 On the other hand, if you are working on a multilingual environment,
 objects imported from other modules may have names which clash with the

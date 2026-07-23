@@ -35,6 +35,22 @@ expose you to security threats!**
     (read more about it :ref:`here <translate_option>`). However,
     note that this does not translate strings, comments etc.
 
+.. _security_name_clashing:
+
+Automatic name clash handling
+-----------------------------
+
+Originally, if a pylyglot file contained a variable name which clashes
+with an english keyword (or a destination language keyword, if translating
+from one language to another), its name would be altered during translation to avoid
+syntax errors (for example ``if --> if0_``).
+        
+Although the automatic renaming ensured that the name did not exist in
+the module, it could eventually cause issues with names from imported modules
+(for example through ``from module import *``). Because of this, this feature
+could silently cause unintended behaviour or even expose the user to security
+risks. It is still possible to bypass this with an option. 
+
 Considerations
 --------------
 
@@ -55,18 +71,15 @@ Considerations
   in the worst case, executing unintended code. Always verify
   ``# pylyglot: keep`` lines by hand, since they're regular Python and
   bypass translation entirely — including any safety review you'd
-  otherwise expect the translator to catch.
+  otherwise expect the translator to catch as well.
+
+  .. todo::
+      Add a regular expression to identify this, potentially.
 
 - **Import hooks are process-wide.** Installing Pylyglot's hooks affects
   ``sys.path_hooks``/``sys.meta_path`` for the whole interpreter session,
   not just files you explicitly run — any subsequent import (yours or a
   library's) is subject to the same suffix/ambiguity resolution.
-
-- **Ambiguous or planted files.** If a directory earlier on ``sys.path``
-  contains a same-named file with a language suffix you didn't expect
-  (``module.pt_br.py`` shadowing ``module.py``), it will be picked up
-  silently. Be cautious with untrusted or writable directories on your
-  path.
 
 - **Homoglyph / lookalike identifiers.** Because translation matches
   keywords by dictionary lookup, visually similar Unicode characters

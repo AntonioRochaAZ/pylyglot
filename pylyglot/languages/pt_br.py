@@ -496,7 +496,11 @@ pylyglot_internal_messages = {
         # 'Successfully updated config option "{key}" from "{old_value}" to "{value}".',
         'Opção de configuração "{key}" atualizada com sucesso de "{old_value}" para "{value}".',
     "config_reset_success":
-        "Config was reset to defaults.",
+        # "Config was reset to defaults.",
+        "As configurações foram re-ininicializadas para os valores padrões. Para vê-los, lance: python -m pylyglot --getconfig",
+    "config_allow_renames":
+        # 'It is not allowed to set a default value for the "allow_renames" option.',
+        'Não é permitido definir um valor padrão para a opção "allow_renames".',
     
     # translator.py:
     "translator_version_warning": 
@@ -508,6 +512,28 @@ pylyglot_internal_messages = {
     "translator_syntaxerror":
         # "Pylyglot Warning: SyntaxErrors may come from the use of python keywords in code.\n",
         "Aviso pylyglot: ErroDeSintaxe pode vir do uso de termos python (em inglês) em seu código.\n",
+    "translator_rename_dict":
+        # "File being translated ({path}) contains the following words present in the destination language: {rename_keys}."
+        # "\nPylyglot is able to automatically rename these variables and run the file, but this may not cause the desired behaviour "
+        # "and THIS MAY EXPOSE YOU TO SECURITY RISKS."
+        # "\nModules imported by this module may suffer from the same issue and not have been reported in this message."
+        # "\nFor these reasons, it is highly recommended that the user rename these variables manually."
+        # "\nTo allow pylyglot to run the file and its imports regardless, you can pass the option --allow_renames=true (this option cannot be "
+        # "set to the config and must be specified for every new run).",
+        "O arquivo a ser traduzido ({path}) contém as seguintes palavras, presente na língua de destino: {rename_keys}."
+        "\nO pylyglot é capaz de automaticamente renomear essas variáveis, e rodar o arquivo, mas isto pode não causar o comportamento esperado, "
+        "além de POTENCIALMENTE EXPÔR O USUÁRIO A RISCOS DE SEGURANÇA."
+        "\nMódulos importados por este módulo também podem ter o mesmo problema, e não terem sido relatados nesta mensagem."
+        "\nPor esses motivos, é extremamente recomendado que o usuário renomeie manualmente as variávies citadas."
+        "\nPara aceitar o risco e permitir que pylyglot rode o arquivo et suas importações de toda forma apenas com um aviso, você pode passar a opção --allow_renames=true "
+        "(essa opção não pode ser integrada às configurações, e deve ser especificada a cada vez).",
+
+    # hooks.py:
+    "hooks_duplicate_module":
+        # 'Error when trying to import module "{fullname}": Multiple modules with the same name in the same directory ({dir_path}): {potential_files}',
+        'Erro ao tentar importar o módulo "{fullname}": Múltiplos módulos com o mesmo nome no diretório ({dir_path}): {potential_files}.',
+
+
 }
 
 dictionary.update(exception_dictionary)

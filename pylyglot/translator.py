@@ -240,7 +240,17 @@ def translate_file(path: str, input_language: str = None, output_language: str =
             }
     
     # Avoid translating a variable into a keyword:
-    dictionary = dictionary | identify_renames(source, dictionary)
+    rename_dict = identify_renames(source, dictionary)
+    if len(rename_dict) != 0:
+        if str(options["allow_renames"]).lower() == "true":
+            # allow with warnings
+            warn(get_pylyglot_message(options["default_language"], "translator_rename_dict", path=path, rename_keys=list(rename_dict.keys()))) 
+        elif str(options["allow_renames"]).lower() == "no_warnings":
+            pass # allow without warningss
+        else:
+            # do not allow
+            raise RuntimeError(get_pylyglot_message(options["default_language"], "translator_rename_dict", path=path, rename_keys=list(rename_dict.keys())))
+    dictionary = dictionary | rename_dict
 
     # Check which lines must not be translated
     keep_lines = [
