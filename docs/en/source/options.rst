@@ -94,7 +94,7 @@ Other options:
 ``--allow_renames``
     .. danger::
         Usage of this option is discouraged.
-        Check this :ref:`dedicated section <security_name_clashing>` of our :ref:`security page <security>`. 
+        Check this :ref:`dedicated section <security_name_clashing>` of our :ref:`security page <security_ref>`. 
 
     This option can be passed with the value ``true`` for allowing
     pylyglot to automatically rename (with warnings) variables which

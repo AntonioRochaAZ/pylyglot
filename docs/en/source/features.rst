@@ -121,7 +121,7 @@ an ``ImportError`` if the ``sum`` object doesn't exist in the module
 even expose you to security threats!**).
 
 .. danger::
-    :ref:`See our security section <security>`.
+    :ref:`See our security section <security_ref>`.
 
 The work around it to use the ``"pylyglot: keep"`` comment,
 which completely ignores the line during the translation process

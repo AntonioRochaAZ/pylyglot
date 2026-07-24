@@ -33,7 +33,7 @@ dictionary = {
     "def":        "def",        
     "retornar":   "return",     
     "lambda":     "lambda",
-    "gerar":   "yield",      
+    "gerar":      "yield",      
     # Others:
     "global":     "global",
     "nãolocal":   "nonlocal",

@@ -1,7 +1,7 @@
-.. _contributing:
+.. _contributing_ref:
 
 Contributing
-=============
+============
 
 We are looking for contributors for revising translations which
 were AI generated (currently all except for French, Portuguese and English),
@@ -25,15 +25,33 @@ Adding a new language
     code from the variant tag. For example, for brazilian (br)
     portuguese (pt) you should write ``pt_br`` and not ``pt-br``.
 
-2.  Define the following dictionaries (see pylyglot/languages/pt_br.py for the most complete example): 
+2.  Define the following dictionaries. :ref:`This page <supported_keywords>` 
+    lists all the (currently) supported terms for each one of the dictionaries.
+    If you would like to propose the support of more terms, do so through an issue
+    in the Github repository.
     
-    - ``dictionary`` : largest mapping of translated keywords to their English
+    - ``dictionary`` (language -> English): largest mapping of translated keywords to their English
       Python equivalents.
-    - ``exception_dictionary``: mapping exception names to their original version.
-    - ``traceback_dictionary``: for error-message translations.
-    - ``pylyglot_internal_messages``: mapping of internal pylyglot keys to their
-      messages. Note that these strings contain terms in brackets, which will be
+    - ``exception_dictionary`` (language -> english): mapping exception names to their original version.
+    - ``traceback_dictionary`` (english -> language): for error-message translations.
+    - ``pylyglot_internal_messages`` (key -> language): mapping of internal pylyglot keys to their
+      messages. Note that these strings contain variables in brackets, which will be
       later formatted with "format". Do not change the name of those variables.
+
+    These translations must follow regular python's terms but also common sense
+    and the terms commonly used in the language in their context. Sometimes, 
+    very technical terms are
+    referred to by their english names, even in other languages. In this case,
+    leaving the term untranslated may be the best choice. To emphasize this,
+    please create an entry in the dictionary with the "non-translation" (the english
+    term mapping to itself). 
+    
+    Make sure you understand the meaning of the term before translating it, so that
+    the translation is accurate.
+
+    Maintain as much as possible the python syntax (for example, the ``classmethod``
+    keyword translation should still be written as one word, as opposed to something
+    like ``class_method``).
 
 3.  Add the following lines to the en of your script to integrate the exception
     messages to both the regular dicitonary and the traceback one:

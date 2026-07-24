@@ -35,7 +35,7 @@ Contributions using AI
 ----------------------
 
 As stated
-in the :ref:`contributing section <contributing>`, the contributor must state
+in the :ref:`contributing section <contributing_ref>`, the contributor must state
 if and how AI was used.
 
 Language support

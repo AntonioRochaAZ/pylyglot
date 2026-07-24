@@ -23,7 +23,7 @@ supported languages. The language is automatically recognized by the file extens
 ``.language_code.py`` (e.g. portuguese_module **.pt.py**).
 
 .. toctree::
-    :caption: Pylyglot 
+    :caption: Using pylyglot 
     :maxdepth: 1
 
     Installation <installation>
@@ -32,8 +32,14 @@ supported languages. The language is automatically recognized by the file extens
     Available languages <languages>
     Security <security>
     Settings (configs) <configs>
+
+.. toctree::
+    :caption: Contributing
+    :maxdepth: 1
+
     On the use of AI <ai>
     Contributing <contributing>
+    Supported keywords <supported_keywords>
     Contributors <contributors>
 
 .. toctree::

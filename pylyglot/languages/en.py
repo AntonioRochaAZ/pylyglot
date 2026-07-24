@@ -61,3 +61,7 @@ pylyglot_internal_messages = {
     "hooks_duplicate_module":
         'Error when trying to import module "{fullname}": Multiple modules with the same name in the same directory ({dir_path}): {potential_files}.',
 }
+
+
+dictionary.update(exception_dictionary)
+traceback_dictionary.update({v: k for k, v in exception_dictionary.items()})
