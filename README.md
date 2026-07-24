@@ -1,6 +1,6 @@
 # Pylyglot: write and run python code on your native language
 
-[insert image here]
+![](docs/en/source/_static/overview.png)
 
 [> Documentation <](https://antoniorochaaz.github.io/pylyglot/)
 
@@ -11,8 +11,6 @@ with keywords from your language. Running it is as simple as running:
 ``python -m pylyglot your_module.py``
 
 Pylyglot also handles importing multilingual modules gracefully. 
-
-![](docs/source/_static/README_example.png)
 
 With the [Pylyglot VSCode extension](), syntax highlighting is also available for all
 supported languages. The language is automatically recognized by the file extension: ``.language_code.py`` (e.g. portuguese_module **.pt.py**).
