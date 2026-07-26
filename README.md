@@ -17,6 +17,7 @@ supported languages. The language is automatically recognized by the file extens
 
 ## Links
 
+- [Pylyglot GitHub](https://github.com/AntonioRochaAZ/pylyglot)
 - [Pylyglot documentation](https://antoniorochaaz.github.io/pylyglot/)
 - [VSCode extension (marketplace)](https://marketplace.visualstudio.com/items?itemName=AntonioRochaAZ.pylyglot)
 - [VSCode extension (source)](https://github.com/AntonioRochaAZ/pylyglot_vscode_extension)
@@ -26,13 +27,17 @@ supported languages. The language is automatically recognized by the file extens
 ## Installation
 
 ### pip
-``pip install pylyglot``
+
+Pylyglot is not (yet) at PyPI, but will be soon. However, it is already available from Test PyPI 
+(the sandboxed version of PyPI which is used for testing) and can be installed with:
+
+``pip install -i https://test.pypi.org/simple/ pylyglot``
 
 ### From source
 ```
 git clone https://github.com/AntonioRochaAZ/pylyglot.git
 cd pylyglot
-pip install -e
+pip install .
 ```
 
 # Documentation

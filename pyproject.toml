@@ -1,7 +1,22 @@
 [project]
 name = "pylyglot"
 version = "0.9.0"
+authors = [
+    {name="Antonio Rocha Azevedo"}
+]
+description = "Pylyglot is an extremely simple python package with no dependencies (other than python itself) which allow you to write 'python' code with keywords from your language."
+readme = "README.md"
 requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/AntonioRochaAZ/pylyglot"
+Issues = "https://github.com/AntonioRochaAZ/pylyglot/issues"
 
 [tool.setuptools.package-data]
 pylyglot = ["config.json"]
