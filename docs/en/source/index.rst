@@ -15,7 +15,7 @@ with keywords from your language. Running it is as simple as running:
 
 Pylyglot also handles importing multilingual modules gracefully. 
 
-With the `Pylyglot VSCode extension <>`_, syntax highlighting is also available for all
+With the `Pylyglot VSCode extension <https://marketplace.visualstudio.com/items?itemName=AntonioRochaAZ.pylyglot>`_, syntax highlighting is also available for all
 supported languages. The language is automatically recognized by the file extension: 
 ``.language_code.py`` (e.g. portuguese_module **.pt.py**).
 
