@@ -413,7 +413,7 @@ exception_dictionary = {
     "Aviso":                    "Warning",
     "AvisoDeUsuário":           "UserWarning",
     "AvisoDeObsolescência":         "DeprecationWarning",          
-    "AvisoDeObsolescênciaPendente": "PendingDeprecatilonWarning", 
+    "AvisoDeObsolescênciaPendente": "PendingDeprecationWarning", 
     "AvisoDeSintaxe":           "SyntaxWarning",
     "AvisoDeExecução":          "RuntimeWarning",
     "AvisoFuturo":              "FutureWarning",
@@ -538,3 +538,9 @@ pylyglot_internal_messages = {
 
 dictionary.update(exception_dictionary)
 traceback_dictionary.update({v: k for k, v in exception_dictionary.items()})
+
+
+# vscode_ext_terms = {
+#     # "match": "(?:\\b({NOTE}|{XXX}|{HACK}|{FIXME}|{BUG}|{TODO})\\b)",
+    
+# }
