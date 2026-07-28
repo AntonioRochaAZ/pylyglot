@@ -1,145 +1,444 @@
-# dictionary = dict()
-exception_dictionary = dict()
-traceback_dictionary = dict()
-pylyglot_internal_messages = dict()
-
 dictionary = {
-    # keyword.kwlist (from keyword import kwlist)
-    # if/else    
-    "si":         "if",
-    "sinonsi":    "elif",
-    "sinon":      "else",
-    # logic:
-    "Faux":      "False",
-    "Rien":     "None",       
-    "Vrai": "True",
-    "et":          "and",
-    "ou":         "or",
-    "pas":        "not",
+    # Keywords
+    "si":           "if",
+    "sinonsi":      "elif",
+    "sinon":        "else",
+    # Logic
+    "Faux":         "False",
+    "Aucun":        "None",
+    "Vrai":         "True",
+    "et":           "and",
+    "ou":           "or",
+    "pas":          "not",
     "est":          "is",
     "dans":         "in",
-    "assurer":    "assert",     
-    # Loops:
-    "pourchaque":       "for",
-    "pendantque":   "while",
-    "continuer":  "continue",
-    "sortir":    "break",
+    "affirmer":     "assert",
+    # Loops
+    "pourchaque":   "for",
+    "tantque":      "while",
+    "continuer":    "continue",
+    "arrêter":      "break",
     # try/except/finally
-    "essayer":     "try",        
-    "sauf":     "except",     
-    "lancer":   "raise",      
-    "finalement": "finally",
-    # imports
-    "de":         "from",
-    "importer":   "import",
-    "comme":       "as",
+    "essayer":      "try",
+    "sauf":         "except",
+    "lever":        "raise",
+    "finalement":   "finally",
+    # Imports
+    "de":           "from",
+    "importer":     "import",
+    "comme":        "as",
     # Functions/classes/generators
-    "classe":     "class",
-    "déf":        "def",        
-    "rendre":   "return",     
-    "lambda":     "lambda",
-    "générer":   "yield",      
-    # Others:
-    "globale":     "global",
-    "nonlocale":   "nonlocal",
-    "passer":     "pass",
-    "async":    "async",    
-    "attendre":    "await",    
-    "supp":        "del",
-    "avec":        "with",
+    "classe":       "class",
+    "def":          "def",
+    "retourner":    "return",
+    "lambda":       "lambda",
+    "générer":      "yield",
+    # Others
+    "global":       "global",
+    "nonlocal":     "nonlocal",
+    "passer":       "pass",
+    "async":        "async",
+    "attendre":     "await",
+    "del":          "del",
+    "avec":         "with",
 
-    #builtins: https://docs.python.org/3/library/functions.html
-    #A
-    "abs":  "abs",
-    "aiter":  "aiter", #
-    "tous":  "all",
-    "anext":  "anext",#
-    "any":  "any",
-    "ascii":  "ascii",
-    #B
-    "bin": "bin",#
+    # Builtins
+    "abs":          "abs",
+    "aiter":        "aiter",
+    "tous":         "all",
+    "asuiv":        "anext",
+    "certains":     "any",
+    "ascii":        "ascii",
+    "bin":          "bin",
     "bool":         "bool",
-    "breakpoint":         "breakpoint",#
-    "matriceoctet":  "bytearray",
-    "octets":        "bytes",
-    #C
-    "callable":    "callable",
-    "car":    "chr",
-    "méthodedeclasse":    "classmethod",
-    "compiler":    "compile",
+    "pointdarrêt":  "breakpoint",
+    "tableauoctets":"bytearray",
+    "octets":       "bytes",
+    "appelable":    "callable",
+    "car":          "chr",
+    "méthodeclass": "classmethod",
+    "compiler":     "compile",
     "complexe":     "complex",
-    #D
-    "suppatr": "delattr",
-    "dicio":        "dict",
-    "dir":        "dir",#
-    "divmod": "divmod",#
-    #E
-    "énumérer": "enumerate",
-    "éval": "eval",
-    "exéc": "exec",
-    #F
-    "filtrer": "filter",
-    "flot":    "float",
-    "format":  "format",
-    "frozenset":    "frozenset",#
-    #G
-    "trouveratr": "getattr",
-    "globales": "globals",
-    #H
-    "aatr": "hasattr",
-    "hash": "hash",
-    "aide": "help",
-    "hex": "hex",
-    #I
-    "id": "id",
-    "input": "input",#
-    "entier":          "int",
-    "estinstance": "isinstance",
-    "estsousclasse": "issubclass",
-    "iter": "iter",#
-    #L
-    "taille": "len",
+    "suppatr":      "delattr",
+    "dico":         "dict",
+    "dir":          "dir",
+    "divmod":       "divmod",
+    "énumérer":     "enumerate",
+    "éval":         "eval",
+    "exec":         "exec",
+    "filtrer":      "filter",
+    "flot":         "float",
+    "format":       "format",
+    "ensemblegel":  "frozenset",
+    "buscatr":      "getattr",
+    "globaux":      "globals",
+    "aattr":        "hasattr",
+    "hash":         "hash",
+    "aide":         "help",
+    "hex":          "hex",
+    "id":           "id",
+    "entrée":       "input",
+    "int":          "int",
+    "estinstance":  "isinstance",
+    "estsousclasse":"issubclass",
+    "iter":         "iter",
+    "taille":       "len",
     "liste":        "list",
-    "locales": "locals",
-    #M
-    "mapper": "map",
-    "max": "max",
-    "memoryview": "memoryview",#
-    "min": "min",
-    #N
-    "prochain": "next",
-    #O
-    "objet":       "object",
-    "oct":       "oct",
+    "locaux":       "locals",
+    "mapper":       "map",
+    "max":          "max",
+    "vuemémoire":   "memoryview",
+    "min":          "min",
+    "suivant":      "next",
+    "objet":        "object",
+    "oct":          "oct",
     "ouvrir":       "open",
-    "ord":       "ord",
-    #P
-    "puiss":       "pow",
-    "imprimer":   "print",
-    "propriété":   "property",
-    #R
-    "intervalle":    "range",
-    "repr":    "repr",#
-    "inverser":    "reversed",
-    "arrondir":    "round",
-    #S
-    "ens":         "set",
-    "défatr":          "setattr",
-    "morceau":          "slice",
-    "ordonner":          "sorted",
-    "méthodestatique":          "staticmethod",
-    "str":          "str",
-    "somme":          "sum",
-    "super":          "super",
-    #T
-    "uplet":         "tuple",
+    "ord":          "ord",
+    "puis":         "pow",
+    "imprimer":     "print",
+    "propriété":    "property",
+    "intervalle":   "range",
+    "repr":         "repr",
+    "inverser":     "reversed",
+    "arrondir":     "round",
+    "ens":          "set",
+    "defatr":       "setattr",
+    "tranche":      "slice",
+    "trier":        "sorted",
+    "méthodestatique": "staticmethod",
+    "txt":          "str",
+    "somme":        "sum",
+    "super":        "super",
+    "tuple":        "tuple",
     "type":         "type",
-    #V
-    "vars": "vars",
-    #Z
-    "zip": "zip",
+    "vars":         "vars",
+    "zip":          "zip",
 
-    #Others:
-    "soi": "self",
-    "__init__": "__init__",
+    # Others
+    "soi":          "self",
+    "NonImplémenté": "NotImplemented",
+
+    # Dunder methods
+    "__init__":                 "__init__",
+    "__nouveau__":              "__new__",
+    "__del__":                  "__del__",
+    "__eg__":                   "__eq__",
+    "__neg__":                  "__ne__",
+    "__hash__":                 "__hash__",
+    "__repr__":                 "__repr__",
+    "__lt__":                   "__lt__",
+    "__gt__":                   "__gt__",
+    "__le__":                   "__le__",
+    "__ge__":                   "__ge__",
+    "__txt__":                  "__str__",
+    "__bool__":                 "__bool__",
+    "__int__":                  "__int__",
+    "__flot__":                 "__float__",
+    "__octets__":               "__bytes__",
+    "__complexe__":             "__complex__",
+    "__format__":               "__format__",
+    "__entrer__":               "__enter__",
+    "__sortir__":               "__exit__",
+    "__taille__":               "__len__",
+    "__iter__":                 "__iter__",
+    "__buscitem__":             "__getitem__",
+    "__defitem__":              "__setitem__",
+    "__delitem__":              "__delitem__",
+    "__contient__":             "__contains__",
+    "__inversé__":              "__reversed__",
+    "__suivant__":              "__next__",
+    "__manquant__":             "__missing__",
+    "__indictaille__":          "__length_hint__",
+    "__appeler__":              "__call__",
+
+    # Arithmetic
+    "__add__":                  "__add__",
+    "__sub__":                  "__sub__",
+    "__mul__":                  "__mul__",
+    "__divver__":               "__truediv__",
+    "__mod__":                  "__mod__",
+    "__divchão__":              "__floordiv__",
+    "__puis__":                 "__pow__",
+    "__mulmat__":               "__matmul__",
+    "__et__":                   "__and__",
+    "__ou__":                   "__or__",
+    "__oux__":                  "__xor__",
+    "__decdr__":                "__rshift__",
+    "__decgch__":               "__lshift__",
+    # Right versions
+    "__radd__":                 "__radd__",
+    "__rsub__":                 "__rsub__",
+    "__rmul__":                 "__rmul__",
+    "__rdivver__":              "__rtruediv__",
+    "__rmod__":                 "__rmod__",
+    "__rdivchão__":             "__rfloordiv__",
+    "__rpuis__":                "__rpow__",
+    "__rmulmat__":              "__rmatmul__",
+    "__ret__":                  "__rand__",
+    "__rou__":                  "__ror__",
+    "__roux__":                 "__rxor__",
+    "__rdecdr__":               "__rrshift__",
+    "__rdecgch__":              "__rlshift__",
+    # Inplace versions
+    "__iadd__":                 "__iadd__",
+    "__isub__":                 "__isub__",
+    "__imul__":                 "__imul__",
+    "__idivver__":              "__itruediv__",
+    "__imod__":                 "__imod__",
+    "__idivchão__":             "__ifloordiv__",
+    "__ipuis__":                "__ipow__",
+    "__imulmat__":              "__imatmul__",
+    "__iet__":                  "__iand__",
+    "__iou__":                  "__ior__",
+    "__ioux__":                 "__ixor__",
+    "__idecdr__":               "__irshift__",
+    # Unary
+    "__nég__":                  "__neg__",
+    "__pos__":                  "__pos__",
+    "__inv__":                  "__invert__",
+    # Math builtins
+    "__divmod__":               "__divmod__",
+    "__rdivmod__":              "__rdivmod__",
+    "__abs__":                  "__abs__",
+    "__indice__":               "__index__",
+    "__arrondir__":             "__round__",
+    "__trunc__":                "__trunc__",
+    "__plancher__":             "__floor__",
+    "__plafond__":              "__ceil__",
+    # Attributes
+    "__buscatr__":              "__getattr__",
+    "__buscattrib__":           "__getattribute__",
+    "__defatr__":               "__setattr__",
+    "__delatr__":               "__delattr__",
+    "__dir__":                  "__dir__",
+    # Metaprogramming
+    "__préparer__":             "__prepare__",
+    "__verifinstance__":        "__instancecheck__",
+    "__verifsousclasse__":      "__subclasscheck__",
+    "__init_sousclasse__":      "__init_subclass__",
+    "__sousclasses__":          "__subclasses__",
+    "__entrées_mro__":          "__mro_entries__",
+    "__buscitem_classe__":      "__class_getitem__",
+    # Descriptors
+    "__def_nom__":              "__set_name__",
+    "__buscar__":               "__get__",
+    "__def__":                  "__set__",
+    "__supprimer__":            "__delete__",
+    # Buffers
+    "__buffer__":               "__buffer__",
+    "__libérer_buffer__":       "__release_buffer__",
+    # Async
+    "__aentrer__":              "__aenter__",
+    "__asortir__":              "__aexit__",
+    "__aiter__":                "__aiter__",
+    "__asuiv__":                "__anext__",
+    "__attendre__":             "__await__",
+    # Library-specific
+    "__post_init__":            "__post_init__",
+    "__crochetsousclasse__":    "__subclasshook__",
+    "__cheminfs__":             "__fspath__",
+    "__copier__":               "__copy__",
+    "__copieprofonde__":        "__deepcopy__",
+    "__remplacer__":            "__replace__",
+    "__buscarnovargs_ex__":     "__getnewargs_ex__",
+    "__buscarnovargs__":        "__getnewargs__",
+    "__buscarétat__":           "__getstate__",
+    "__défétat__":              "__setstate__",
+    "__réduire__":              "__reduce__",
+    "__réduire_ex__":           "__reduce_ex__",
+    "__taillede__":             "__sizeof__",
+
+    # Dunder attributes
+    "__nom__":          "__name__",
+    "__module__":       "__module__",
+    "__doc__":          "__doc__",
+    "__classe__":       "__class__",
+    "__dico__":         "__dict__",
+    "__slots__":        "__slots__",
+    "__args_corresp__": "__match_args__",
+    "__mro__":          "__mro__",
+    "__bases__":        "__bases__",
+    "__fichier__":      "__file__",
+    "__emballé__":      "__wrapped__",
+    "__version__":      "__version__",
+    "__tous__":         "__all__",
+    "__debug__":        "__debug__",
+    "__défauts__":      "__defaults__",
+    "__kwdéfauts__":    "__kwdefaults__",
+    "__code__":         "__code__",
+    "__globaux__":      "__globals__",
+    "__fermeture__":    "__closure__",
+    "__nomquali__":     "__qualname__",
+    "__annotations__":  "__annotations__",
+    "__params_type__":  "__type_params__",
+    "__attribs_stat__": "__static_attributes__",
+    "__numpremièreligne__": "__firstlineno__",
+    "__fonc__":         "__func__",
+    "__soi__":          "__self__",
+    "__chargeur__":     "__loader__",
+    "__paquet__":       "__package__",
+    "__spec__":         "__spec__",
+    "__caché__":        "__cached__",
+    "__chemin__":       "__path__",
+    "__traceback__":    "__traceback__",
+    "__notes__":        "__notes__",
+    "__contexte__":     "__context__",
+    "__cause__":        "__cause__",
+    "__suppr_contexte__": "__suppress_context__",
+    "__objclasse__":    "__objclass__",
+    "__celclasse__":    "__classcell__",
+    "__réffaible__":    "__weakref__",
+    "__origine__":      "__origin__",
+    "__args__":         "__args__",
+    "__paramètres__":   "__parameters__",
+    "__dépaquété__":    "__unpacked__",
+    "__sortiestandard__": "__stdout__",
+    "__errstandard__":  "__stderr__",
+    "__covariant__":    "__covariant__",
+    "__contravariant__":"__contravariant__",
+    "__infvariance__":  "__infer_variance__",
+    "__limite__":       "__bound__",
+    "__contraintes__":  "__constraints__",
+    "__importer__":     "__import__",
+    "__builtins__":     "__builtins__",
+    "__futur__":        "__future__",
+    "__main__":         "__main__",
 }
+
+exception_dictionary = {
+    "ExceptionBase":            "BaseException",
+    "Exception":                "Exception",
+    "ErreurArithmétique":       "ArithmeticError",
+    "ErreurBuffer":             "BufferError",
+    "ErreurRecherche":          "LookupError",
+    "ErreurAffirmation":        "AssertionError",
+    "ErreurAttribut":           "AttributeError",
+    "ErreurFinFichier":         "EOFError",
+    "ErreurVirguteFlottante":   "FloatingPointError",
+    "SortieGénérateur":         "GeneratorExit",
+    "ErreurImportation":        "ImportError",
+    "ErreurModuleIntrouvable":  "ModuleNotFoundError",
+    "ErreurIndice":             "IndexError",
+    "ErreurClé":                "KeyError",
+    "InterruptionClavier":      "KeyboardInterrupt",
+    "ErreurMémoire":            "MemoryError",
+    "ErreurNom":                "NameError",
+    "ErreurNonImplémenté":      "NotImplementedError",
+    "ErreurOS":                 "OSError",
+    "ErreurOverflow":           "OverflowError",
+    "ErreurFinalisationPython": "PythonFinalizationError",
+    "ErreurRécursion":          "RecursionError",
+    "ErreurRéférence":          "ReferenceError",
+    "ErreurExécution":          "RuntimeError",
+    "ArrêterItération":         "StopIteration",
+    "ArrêterItérationAsync":    "StopAsyncIteration",
+    "ErreurSyntaxe":            "SyntaxError",
+    "ErreurIndentation":        "IndentationError",
+    "ErreurTab":                "TabError",
+    "ErreurSystème":            "SystemError",
+    "SortieSystème":            "SystemExit",
+    "ErreurType":               "TypeError",
+    "ErreurVariableNonDéfinie": "UnboundLocalError",
+    "ErreurUnicode":            "UnicodeError",
+    "ErreurEncodageUnicode":    "UnicodeEncodeError",
+    "ErreurDécodageUnicode":    "UnicodeDecodeError",
+    "ErreurTraductionUnicode":  "UnicodeTranslateError",
+    "ErreurValeur":             "ValueError",
+    "ErreurDivisionParZéro":    "ZeroDivisionError",
+    "ErreurEnvironnement":      "EnvironmentError",
+    "ErreurES":                 "IOError",
+    "ErreurWindows":            "WindowsError",
+    "ErreurESBloquant":         "BlockingIOError",
+    "ErreurProcessusFils":      "ChildProcessError",
+    "ErreurConnexion":          "ConnectionError",
+    "ErreurTuyauCassé":         "BrokenPipeError",
+    "ErreurConnexionAbortée":   "ConnectionAbortedError",
+    "ErreurConnexionRefusée":   "ConnectionRefusedError",
+    "ErreurConnexionRéinitialisée": "ConnectionResetError",
+    "ErreurFichierExistant":    "FileExistsError",
+    "ErreurFichierIntrouvable": "FileNotFoundError",
+    "ErreurInterruption":       "InterruptedError",
+    "ErreurEstRépertoire":      "IsADirectoryError",
+    "ErreurPasRépertoire":      "NotADirectoryError",
+    "ErreurPermission":         "PermissionError",
+    "ErreurProcessusIntrouvable": "ProcessLookupError",
+    "ErreurTimeout":            "TimeoutError",
+    "Avertissement":            "Warning",
+    "AvertissementUtilisateur": "UserWarning",
+    "AvertissementDépréciation":"DeprecationWarning",
+    "AvertissementDépréciationAttente": "PendingDeprecationWarning",
+    "AvertissementSyntaxe":     "SyntaxWarning",
+    "AvertissementExécution":   "RuntimeWarning",
+    "AvertissementFutur":       "FutureWarning",
+    "AvertissementImportation": "ImportWarning",
+    "AvertissementUnicode":     "UnicodeWarning",
+    "AvertissementEncodage":    "EncodingWarning",
+    "AvertissementOctets":      "BytesWarning",
+    "AvertissementRessource":   "ResourceWarning",
+    "GroupeExceptions":         "ExceptionGroup",
+    "GroupeExceptionsBase":     "BaseExceptionGroup",
+}
+
+traceback_dictionary = {
+    "Traceback (most recent call last):":
+        "Traceback (appel le plus récent en dernier):",
+    "line":     "ligne",
+    "File":     "Fichier",
+    "During handling of the above exception, another exception occurred":
+        "Lors du traitement de l'exception ci-dessus, une autre exception s'est produite",
+    "The above exception was the direct cause of the following exception":
+        "L'exception ci-dessus était la cause directe de l'exception suivante",
+    "invalid syntax":
+        "syntaxe invalide",
+}
+
+pylyglot_internal_messages = {
+    "main_arg_length_error":
+        "Pylyglot doit recevoir au moins une option : le chemin du fichier.",
+    "main_file_specified_twice":
+        "Chemin de fichier spécifié deux fois ? {filepath}, {arg}.",
+    "main_couldnt_interpret_argument":
+        "Impossible d'interpréter l'argument : {arg}. Assurez-vous d'avoir fourni les bons chemins.",
+    "main_couldnt_find_filepath":
+        "Impossible d'identifier le chemin du fichier dans les arguments.",
+    "main_console_and_translate":
+        'Pylyglot a reçu les options "console" et "translate" en même temps (une seule est autorisée).',
+    "main_translate_destination":
+        "L'option --translate nécessite une destination : python -m pylyglot --translate=output_language source_path destination_path",
+    "main_no_output_language_verbose":
+        'Aucune langue de traduction spécifiée pour l\'option translate. Langue identifiée par l\'extension : {lang}.',
+    "main_defaulting_to_default_language":
+        'Aucune langue spécifiée pour l\'option translate, traduction vers la langue par défaut : {default_language}.'
+        '\nVous pouvez changer la langue par défaut avec : "python -m pylyglot --setconfig default_language=code_langue".',
+    "main_file_and_destination_type_mismatch":
+        "Le chemin spécifié ({filepath}) est un répertoire, mais la destination ne l'est pas ({destination}).",
+    "main_console_language":
+        'Avertissement Pylyglot : Aucune langue spécifiée pour la console, langue par défaut utilisée : {default_language}.'
+        '\nVous pouvez changer la langue par défaut avec : "python -m pylyglot --setconfig default_language=code_langue".',
+    "config_key_error":
+        '"{key}" n\'est pas dans la configuration pylyglot.'
+        '\nPour voir les options, lancez : "python -m pylyglot --getconfig"'
+        '\nPour le chemin du fichier de configuration, lancez : "python -m pylyglot --getconfigpath"',
+    "config_set_success":
+        'Option de configuration "{key}" mise à jour de "{old_value}" à "{value}".',
+    "config_reset_success":
+        "La configuration a été réinitialisée aux valeurs par défaut.",
+    "config_allow_renames":
+        'Il n\'est pas permis de définir une valeur par défaut pour l\'option "allow_renames".',
+    "translator_version_warning":
+        "Le fichier pylyglot {path} a été généré avec la version {version}, mais vous utilisez {current_version} ! La traduction pourrait être incohérente.",
+    "translator_language_id_fail":
+        "Impossible d'identifier la langue du fichier : {path}",
+    "translator_syntaxerror":
+        "Avertissement Pylyglot : Les ErreurSyntaxe peuvent provenir de l'utilisation de mots-clés Python en anglais.\n",
+    "translator_rename_dict":
+        "Le fichier à traduire ({path}) contient les mots suivants présents dans la langue cible : {rename_keys}."
+        "\nPylyglot peut renommer automatiquement ces variables, mais cela peut exposer à des RISQUES DE SÉCURITÉ."
+        "\nIl est fortement recommandé de renommer manuellement ces variables."
+        "\nPour autoriser pylyglot à continuer malgré tout, utilisez --allow_renames=true.",
+    "hooks_duplicate_module":
+        'Erreur lors de l\'importation du module "{fullname}" : Plusieurs modules avec le même nom dans ({dir_path}) : {potential_files}.',
+}
+
+dictionary.update(exception_dictionary)
+traceback_dictionary.update({v: k for k, v in exception_dictionary.items()})

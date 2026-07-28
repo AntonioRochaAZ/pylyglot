@@ -47,3 +47,4 @@ supported languages. The language is automatically recognized by the file extens
     pylyglot/console
     pylyglot/hooks
     pylyglot/translator
+    pylyglot/utils

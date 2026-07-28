@@ -16,9 +16,9 @@ dictionary = {
     "assegurar":    "assert",     
     # Loops:
     "paracada":    "for",
-    "enquanto":   "while",
-    "continuar":  "continue",
-    "quebrar":    "break",
+    "enquanto":    "while",
+    "continuar":   "continue",
+    "interromper": "break",
     # try/except/finally
     "tentar":     "try",        
     "exceto":     "except",     
@@ -235,7 +235,7 @@ dictionary = {
     "__dir__":                  "__dir__",
 
     # Metaprogramming:
-    "__preparar_":              "__prepare__",
+    "__preparar__":              "__prepare__",
     "__veriféinstância__":      "__instancecheck__",
     "__verifésubclasse__":      "__subclasscheck__",
     "__inic_subclasse__":       "__init_subclass__",
@@ -254,7 +254,7 @@ dictionary = {
     "__liberar_buffer__":       "__release_buffer__",
 
     # Asynchronous operations:
-    "__aentrar__":              "__aenter_",
+    "__aentrar__":              "__aenter__",
     "__asair__":                "__aexit__",
     "__aiter__":                "__aiter__",
     "__apróx__":                "__anext__",
@@ -263,7 +263,6 @@ dictionary = {
     # Library-specific
     "__pós_inic__":             "__post_init__",
     "__ganchosubclasse__":      "__subclasshook__",
-    # "": "__subclasscheck__", # Defined earlier
     "__fscaminho__":            "__fspath__",
     "__copiar__":               "__copy__",
     "__cópiaprofunda__":        "__deepcopy__",
@@ -283,8 +282,8 @@ dictionary = {
     "__doc__":      "__doc__",
     "__classe__":   "__class__",
     "__dicio__":    "__dict__",
-    "__slots__":    "__slots__",               # TODO
-    "__match_args__":   "__match_args__",     # TODO
+    "__slots__":    "__slots__",            
+    "__corresp_args__":   "__match_args__", 
 
     "__orm__":      "__mro__", # Method Resolution Order
     "__bases__":    "__bases__",
@@ -296,53 +295,53 @@ dictionary = {
     "__debug__":    "__debug__",
 
     "__padrões__":      "__defaults__",
-    "__padrõeskw__":    "__kwdefaults__",
+    "__kwpadrões__":    "__kwdefaults__",
     "__código__":       "__code__",
     "__globais__":      "__globals__",
     "__fechamento__":   "__closure__",
     
-    # "": "__qualname__",
-    # "": "__annotations__",
-    # "": "__type_params__",
+    "__nomequali__": "__qualname__",
+    "__anotações__": "__annotations__",
+    "__tipo_params__": "__type_params__",
 
-    # "": "__static_attributes__",
-    # "": "__firstlineno__",
+    "__atributos_estáticos__": "__static_attributes__",
+    "__numprimeiralinha__": "__firstlineno__",
 
-    # "": "__func__",
-    # "": "__self__",
+    "__função__": "__func__",
+    "__si__": "__self__",
 
-    # "": "__loader__",
-    # "": "__package__",
-    # "": "__spec__",
-    # "": "__cached__",
+    "__carregador__": "__loader__",
+    "__pacote__": "__package__",
+    "__spec__": "__spec__",
+    "__cached__": "__cached__",
 
     "__caminho__":      "__path__",
 
-    # "": "__traceback__",
-    # "": "__notes__",
-    # "": "__context__",
-    # "": "__cause__",
-    # "": "__suppress_context__",
+    "__traceback__": "__traceback__",
+    "__notas__": "__notes__",
+    "__contexto__": "__context__",
+    "__causa__": "__cause__",
+    "__del_contexto__": "__suppress_context__",
 
-    # "": "__objclass__",
-    # "": "__classcell__",
-    # "": "__weakref__",
+    "__objclasse__": "__objclass__",
+    "__célulaclasse__": "__classcell__",
+    "__reffraca__": "__weakref__",
 
-    # "": "__origin__",
-    # "": "__args__",
-    # "": "__parameters__",
-    # "": "__unpacked__",
+    "__origem__": "__origin__",
+    "__args__": "__args__",
+    "__parâmetros__": "__parameters__",
+    "__desempacotado__": "__unpacked__",
 
-    # "": "__stdout__",
-    # "": "__stderr__",
+    "__saídapadrão__": "__stdout__",
+    "__errpadrão__": "__stderr__",
 
-    # "": "__covariant__",
-    # "": "__contravariant__",
-    # "": "__infer_variance__",
-    # "": "__bound__",
-    # "": "__constraints__",
-    # "": "__import__",
-    # "": "__builtins__",
+    "__covariante__": "__covariant__",
+    "__contravariante__": "__contravariant__",
+    "__infer_variância__": "__infer_variance__",
+    "__limite__": "__bound__",
+    "__restrições__": "__constraints__",
+    "__importar__": "__import__",
+    "__embutidos__": "__builtins__",
     "__futuro__":   "__future__",
     "__main__":     "__main__",
 
@@ -538,9 +537,3 @@ pylyglot_internal_messages = {
 
 dictionary.update(exception_dictionary)
 traceback_dictionary.update({v: k for k, v in exception_dictionary.items()})
-
-
-# vscode_ext_terms = {
-#     # "match": "(?:\\b({NOTE}|{XXX}|{HACK}|{FIXME}|{BUG}|{TODO})\\b)",
-    
-# }

@@ -53,7 +53,7 @@ Adding a new language
     keyword translation should still be written as one word, as opposed to something
     like ``class_method``).
 
-3.  Add the following lines to the en of your script to integrate the exception
+3.  Add the following lines to the end of your script to integrate the exception
     messages to both the regular dicitonary and the traceback one:
 
     .. code-block:: python

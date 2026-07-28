@@ -27,15 +27,43 @@ Currently supported
    * - Code
      - Language
      - Status
+     - Comment
+   * - ``de``
+     - German
+     - Contributor needed
+     - AI generated
+   * - ``en``
+     - English
+     - Complete
+     - For internal pylyglot messages.
+   * - ``es``
+     - Spanish
+     - Verification in progress
+     - AI generated
+   * - ``fr``
+     - French
+     - Verification in progress
+     - Manual + AI generated
+   * - ``it``
+     - Italian
+     - Contributor needed
+     - AI generated
+   * - ``jp``
+     - Japanese
+     - Contributor needed
+     - AI generated
    * - ``pt``
-     - Portuguese (default, points to ``pt_br``)
-     - Mostly complete
+     - Portuguese
+     - Complete
+     - Default, points to ``pt_br``
    * - ``pt_br``
      - Portuguese (Brazil)
-     - Mostly complete
-   * - ``fr``
-     - Portuguese (Brazil)
+     - Complete
+     - Mostly manually translated. Fully verified.
+   * - ``pt_rj``
+     - Portuguese (Rio de Janeiro)
      - In progress
+     - Informal (contains slang)
 
 Detecting a file's language
 ---------------------------
