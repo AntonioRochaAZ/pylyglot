@@ -6,12 +6,14 @@ from warnings import warn
 import runpy
 from pathlib import Path
 
-from .config import options
+from . import config
+from . import debug
+
 
 EXTENSION_RE = re.compile(r"\.(.*)\.py$")
 LANGUAGE_RE  = re.compile(r"^\s*#\s*pylyglot:\s*([^#]*)#(?:\s*version:\s*([^#]*)#)?")
 SH_RE        = re.compile(r"^#!")
-KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$") # TODO: write documentation about this
+KEEP_LINE_RE = re.compile(r"#\s*pylyglot:\s*keep\s*$")
 
 def get_language_module(language: str, throw_exception: bool = True) -> Union[ModuleType, None]:
     """Get the python module associated to a language
@@ -92,7 +94,7 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[
                     current_version = get_version("pylyglot")
                     if current_version != version:
                         # Change default_language to output_language (must store it in options!)
-                        warn(get_pylyglot_message(options["default_language"], "translator_version_warning", path=path, version=version, current_version=current_version))
+                        warn(get_pylyglot_message(config.options["default_language"], "translator_version_warning", path=path, version=version, current_version=current_version))
                 except PackageNotFoundError:
                     pass
             return lang
@@ -107,7 +109,7 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Union[
         return lang
     else:
         if not filename.endswith(".py"):
-            raise ValueError(get_pylyglot_message(options["default_language"], "translator_language_id_fail", path=path))
+            raise ValueError(get_pylyglot_message(config.options["default_language"], "translator_language_id_fail", path=path))
         else:
             return "en" # Regular python file
     
@@ -192,9 +194,6 @@ def translate_source(source: str, dictionary: dict, keep_lines: List[int] = None
 def translate_file(path: str, input_language: str = None, output_language: str = "en", encoding: str = "utf-8", errors="strict") -> str:
     """Translates a file from one language to another.
 
-    .. todo::
-        Eventually find a way of automatically identifying the encoding,
-
     Args:
         path: Path to the file to be translated.
         input_language: Language of the file. If None is passed, it will be automatically detected.
@@ -236,14 +235,14 @@ def translate_file(path: str, input_language: str = None, output_language: str =
     # Avoid translating a variable into a keyword:
     rename_dict = identify_renames(source, dictionary)
     if len(rename_dict) != 0:
-        if str(options["allow_renames"]).lower() == "true":
+        if str(config.options["allow_renames"]).lower() == "true":
             # allow with warnings
-            warn(get_pylyglot_message(options["default_language"], "translator_rename_dict", path=path, rename_keys=list(rename_dict.keys()))) 
-        elif str(options["allow_renames"]).lower() == "no_warnings":
+            warn(get_pylyglot_message(config.options["default_language"], "translator_rename_dict", path=path, rename_keys=list(rename_dict.keys()))) 
+        elif str(config.options["allow_renames"]).lower() == "no_warnings":
             pass # allow without warningss
         else:
             # do not allow
-            raise RuntimeError(get_pylyglot_message(options["default_language"], "translator_rename_dict", path=path, rename_keys=list(rename_dict.keys())))
+            raise RuntimeError(get_pylyglot_message(config.options["default_language"], "translator_rename_dict", path=path, rename_keys=list(rename_dict.keys())))
     dictionary = dictionary | rename_dict
 
     # Check which lines must not be translated
@@ -255,7 +254,7 @@ def translate_file(path: str, input_language: str = None, output_language: str =
 
     return translate_source(source, dictionary, keep_lines=keep_lines) 
 
-def translate_and_write(src_path: str, dst_path: str, output_language, **options):
+def translate_and_write(src_path: str, dst_path: str, output_language, **translate_file_options):
     """
     Translate file from one language to another, adding a line comment specifying its language 
     an pylyglot version at the beginning of it.
@@ -265,8 +264,8 @@ def translate_and_write(src_path: str, dst_path: str, output_language, **options
         src_path, 
         output_language=output_language, 
         input_language=None,                # Will be inferred
-        encoding=options["input_encoding"],
-        errors=options["encoding_errors"]
+        encoding=translate_file_options["input_encoding"],
+        errors=translate_file_options["encoding_errors"]
     )
 
     try:
@@ -290,7 +289,7 @@ def translate_and_write(src_path: str, dst_path: str, output_language, **options
     # Make directory path if not existant:
     os.makedirs(os.path.dirname(dst_path) or ".", exist_ok=True)
     # Write file:
-    with open(dst_path, "w", encoding=options["output_encoding"]) as f:
+    with open(dst_path, "w", encoding=translate_file_options["output_encoding"]) as f:
         f.write(output)
     print(f"Translated: {src_path} into {dst_path}.")
 
@@ -307,7 +306,7 @@ def make_excepthook(language: str):
     def pylyglot_excepthook(typ, value, tb):
         lines = traceback.format_exception(typ, value, tb)
         if typ is SyntaxError:
-            lines.append(get_pylyglot_message(options["default_language"], "translator_syntaxerror")) 
+            lines.append(get_pylyglot_message(config.options["default_language"], "translator_syntaxerror")) 
                 #< TODO: add checks for python keywords in the line of code.
         
         for line in lines:
@@ -317,13 +316,19 @@ def make_excepthook(language: str):
 
 def run_file(path: str) -> None:
     input_language  = detect_language(path)
+    if debug.VERBOSE_LEVEL >= 1:  print(f"> translator.run_file(): detected input language: {input_language}")
 
     # set excepthook for the main file
     sys.excepthook = make_excepthook(input_language)
+    if debug.VERBOSE_LEVEL >= 1:  print(f"> translator.run_file(): sys.excepthook: {sys.excepthook}")
     
     # run through normal machinery - loader handles translation
     path = Path(path).resolve()
     parent = path.parent
     sys.path.insert(0, str(parent))
     module_name = str(path.name).split(".")[0]
+    if debug.VERBOSE_LEVEL >= 1:  print(f"> translator.run_file(): Identified path: {path}")
+    if debug.VERBOSE_LEVEL >= 1:  print(f"> translator.run_file(): Identified parent path: {parent}")
+    if debug.VERBOSE_LEVEL >= 1:  print(f"> translator.run_file(): Identified module_name: {module_name}")
+    if debug.VERBOSE_LEVEL >= 1:  print(f"> translator.run_file(): Running file...")
     runpy.run_module(module_name, run_name="__main__", alter_sys=True)

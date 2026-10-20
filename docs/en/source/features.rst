@@ -1,8 +1,8 @@
 Features
 ========
 
-.. seealso::
-    :ref:`Check the supported languages and their codes in this section! <available_languages>`
+.. tip::
+    All features at a glance on the list on the right of the page →
 
 Language extensions
 -------------------
@@ -13,8 +13,11 @@ Languages are recognized through the file extension:
 
     multilingual_codebase/
     ├── main.py         # .py --> Regular python
-    ├── tests.pt_br.py  # .fr.py --> French python
-    └── utils.fr.py     # .pt.pt --> Brazilian portuguese python 
+    ├── tests.pt_br.py  # .pt_br.py --> Brazilian portuguese python
+    └── utils.fr.py     # .fr.pt --> French python 
+
+.. seealso::
+    :ref:`Check the supported languages and their codes in this section! <available_languages>`
 
 Languages can also be identified through a comment at the first line 
 of the file (indicating the language code and eventually the pylyglot
@@ -22,7 +25,7 @@ version, when the file file was through translation of an existing file):
 
 .. code-block:: python
     
-    # pylyglot: fr # version: 0.5.0 #
+    # pylyglot: language_code # version: 0.5.0 #
 
 You can still have ``#!/bin/bash`` type comments in the
 first line of your module, and have the pylyglot comment as the second line!
@@ -35,6 +38,51 @@ first line of your module, and have the pylyglot comment as the second line!
     If there are two files with the same name but different extensions
     in the directory (e.g. main.py and main.fr.py), an ``ImportError``
     is triggered.
+
+Running pylyglot files directly
+-------------------------------
+
+By running ``python -m pylyglot your_pylyglot_file``, you can run your
+pylyglot code directly, without having to translate it to regular python.
+
+
+Translate files (and codebases) to and from different languages
+---------------------------------------------------------------
+
+.. todo::
+    Insert image with regular python adn two other languages in a triangle.
+
+This can be done with the --translate option when running pylyglot:
+
+.. code-block:: bash
+
+    python -m pylyglot --translate[=<destination_language_code>] <source> <destination>
+
+Specifying the destination language is optional if the destination contains a language
+extension. The options ``<source>`` and ``<destination>`` can be folders. In that
+case, all python and pylyglot files in the source folder (and folders inside those
+folders etc.) will be translated to the desired language and stored in the same
+structure in the destination folder. 
+
+.. seealso::
+    :ref:`Our dedicated section to the command line options. <clo>`
+
+Interactive console
+-------------------
+
+.. todo::
+    Add Figure.
+
+Pylyglot also allows for an interactive console in which you can write in your 
+language. 
+
+.. code-block:: bash
+
+    python -m pylyglot --console=<language_code>
+
+
+.. seealso::
+    :ref:`Our dedicated section to the command line options. <clo>`
 
 
 Running a multilingual code base seamlessly
@@ -105,12 +153,7 @@ objects imported from other modules may have names which clash with the
 pylyglot module's language.
 For example, the following portuguese python code:
 
-.. 
-   TODO: Change to picture.
-
-.. code-block:: python
-    
-    de utils importar soma
+``de utils importar soma``
 
 Would try to import object "soma" from module "utils". However, "soma" means "sum"
 in Portuguese,
@@ -135,43 +178,8 @@ By using ``import soma as soma_en``, we can safely call the right
 function through its alias (``soma_en``) in the rest of the code,
 avoiding having to use this feature at every call.
 
-Translate files (and codebases) to and from different languages
----------------------------------------------------------------
-
-.. todo::
-    Insert image with regular python adn two other languages in a triangle.
-
-This can be done with the --translate option when running pylyglot:
-
-.. code-block:: bash
-
-    python -m pylyglot --translate=<destination_language_code> <source> <destination>
-
-Specifying the destination language is optional if the destination contains a language
-extension. The options ``<source>`` and ``<destination>`` can be folders. In that
-case, all python and pylyglot files in the source folder (and folders inside those
-folders etc.) will be translated to the desired language and stored in the same
-structure in the destination folder. 
-
-.. seealso::
-    :ref:`Our dedicated section to the command line options. <clo>`
-
-Interactive console
--------------------
-
-Pylyglot also allows for an interactive console in which you can write in your 
-language. 
-
-.. code-block:: bash
-
-    python -m pylyglot --console=<language_code>
-
-
-.. seealso::
-    :ref:`Our dedicated section to the command line options. <clo>`
-
-Tracebacks
-----------
+Traceback message translation
+-----------------------------------
 
 Some common traceback phrases are also translated by pylyglot 
 (e.g. "Traceback (most recent call last):").

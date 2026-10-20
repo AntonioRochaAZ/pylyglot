@@ -123,7 +123,7 @@ dictionary = {
     "fatia":    "slice",
     "ordenar":  "sorted",
     "métodoestático":   "staticmethod",
-    "txt":      "str",
+    "str":      "str",
     "soma":     "sum",
     "opai":    "super",
     #T
@@ -152,7 +152,7 @@ dictionary = {
     "__maiq__":                 "__gt__",
     "__menig__":                "__le__",
     "__maiig__":                "__ge__",
-    "__txt__":                  "__str__",
+    "__str__":                  "__str__",
     "__bool__":                 "__bool__",
     "__int__":                  "__int__",
     "__flut__":                 "__float__",
@@ -288,7 +288,7 @@ dictionary = {
     "__orm__":      "__mro__", # Method Resolution Order
     "__bases__":    "__bases__",
     "__arquivo__":  "__file__",
-    "__embrulhados__":  "__wrapped__",
+    "__embrulhado__":  "__wrapped__",
 
     "__versão__":   "__version__",
     "__todos__":    "__all__",
@@ -520,13 +520,13 @@ pylyglot_internal_messages = {
         # "\nTo allow pylyglot to run the file and its imports regardless, you can pass the option --allow_renames=true (this option cannot be "
         # "set to the config and must be specified for every new run).",
         "O arquivo a ser traduzido ({path}) contém as seguintes palavras, presente na língua de destino: {rename_keys}."
-        "\nO pylyglot é capaz de automaticamente renomear essas variáveis, e rodar o arquivo, mas isto pode não causar o comportamento esperado, "
+        "\nO pylyglot é capaz de automaticamente renomear essas variáveis e rodar o arquivo, mas isto pode não causar o comportamento esperado, "
         "além de POTENCIALMENTE EXPÔR O USUÁRIO A RISCOS DE SEGURANÇA."
         "\nMódulos importados por este módulo também podem ter o mesmo problema, e não terem sido relatados nesta mensagem."
         "\nPor esses motivos, é extremamente recomendado que o usuário renomeie manualmente as variávies citadas."
-        "\nPara aceitar o risco e permitir que pylyglot rode o arquivo et suas importações de toda forma apenas com um aviso, você pode passar a opção --allow_renames=true "
+        "\nPara aceitar o risco e permitir que pylyglot rode o arquivo e suas importações de toda forma apenas com um aviso, você pode passar a opção --allow_renames=true "
         "(essa opção não pode ser integrada às configurações, e deve ser especificada a cada vez).",
-
+    
     # hooks.py:
     "hooks_duplicate_module":
         # 'Error when trying to import module "{fullname}": Multiple modules with the same name in the same directory ({dir_path}): {potential_files}',

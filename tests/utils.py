@@ -10,22 +10,22 @@ def get_languages_folder() -> Path:
         languages_folder = Path(path).resolve()
     return languages_folder
 
-def get_all_language_modules() -> List[ModuleType]:
+def get_language_file_list() -> List[str]:
     languages_folder = get_languages_folder()
     language_list = os.listdir(languages_folder)
     entries_to_ignore = [file for file in language_list if file.startswith("__") or file.endswith("__")]
     for entry in entries_to_ignore:
-        language_list.remove(entry)
+            language_list.remove(entry)
+    return language_list
 
+def get_all_language_modules() -> List[ModuleType]:
+    language_list = get_language_file_list()
     module_list = [get_language_module(lang.removesuffix(".py")) for lang in language_list]
     return module_list
 
 def get_all_language_sources() -> List[str]:
     languages_folder = get_languages_folder()
-    language_list = os.listdir(languages_folder)
-    entries_to_ignore = [file for file in language_list if file.startswith("__") or file.endswith("__")]
-    for entry in entries_to_ignore:
-        language_list.remove(entry)
+    language_list = get_language_file_list()
     src_list = []
     for language in language_list:
         with open(languages_folder/language, "r") as f:

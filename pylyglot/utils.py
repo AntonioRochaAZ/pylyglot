@@ -13,7 +13,7 @@ def get_source_suffixes() -> List[str]:
     """Gets all source suffixes (``.language_code.py`` + ``.py``)"""
     language_codes = get_supported_language_codes()
 
-    suffix_list = [f"{language}.py" for language in language_codes]
+    suffix_list = [f".{language}.py" for language in language_codes]
     suffix_list.insert(0, ".py") # Regular python
     PYLYGLOT_SOURCE_SUFFIXES = set(suffix_list) # Just in case
     

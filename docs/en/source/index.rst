@@ -7,13 +7,18 @@ Pylyglot: write and run python code on your native language
 
 .. image:: _static/overview.png
 
+How come it's 2026 and I can't write code in my own language,
+with accents and special characters?
+
 Pylyglot is an extremely simple python package with no dependencies
 (other than python itself) which allow you to write "python" code
-with keywords from your language. Running it is as simple as running: 
+with keywords from your language. It can be used for teaching,
+learning, in serious projects or for fun. Running it is as simple as running: 
 
-``python -m pylyglot your_module.py``
+``python -m pylyglot your_pylyglot_file``
 
-Pylyglot also handles importing multilingual modules gracefully. 
+Pylyglot also handles importing modules from different languages gracefully,
+allowing for multilingual projects. 
 
 With the `Pylyglot VSCode extension <https://marketplace.visualstudio.com/items?itemName=AntonioRochaAZ.pylyglot>`_, syntax highlighting is also available for all
 supported languages. The language is automatically recognized by the file extension: 

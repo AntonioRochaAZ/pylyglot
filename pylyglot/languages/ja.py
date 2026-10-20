@@ -1,10 +1,15 @@
-# Japanese language pack for Pylyglot
-# Notes on translation choices:
-# - Keywords use romaji where Japanese programmers commonly use them (e.g. lambda, global)
-# - Technical terms like "class", "def", "import" are kept in romaji as they are
-#   universally used as-is in Japanese programming culture
-# - Builtins are translated where a natural Japanese equivalent exists
-# - Dunder methods use short romaji-based abbreviations following Japanese IT conventions
+"""
+Japanese language pack for Pylyglot
+
+Notes on translation choices:
+
+- Keywords use romaji where Japanese programmers commonly use them (e.g. lambda, global)
+- Technical terms like "class", "def", "import" are kept in romaji as they are
+  universally used as-is in Japanese programming culture
+- Builtins are translated where a natural Japanese equivalent exists
+- Dunder methods use short romaji-based abbreviations following Japanese IT conventions
+
+"""
 
 dictionary = {
     # Keywords
