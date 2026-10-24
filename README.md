@@ -53,3 +53,33 @@ this project.
 - [VSCode extension (source)](https://github.com/AntonioRochaAZ/pylyglot_vscode_extension)
 - [PyPI page](https://github.com/AntonioRochaAZ/pylyglot)
 
+## Available languages
+
+| Code | Language | Status | Comment |
+|---|---|---|---|
+| `ar` | Modern Standard Arabic | Complete (AI generated) | Contributor needed |
+| `cs` | Czech | Complete (AI generated) | Contributor needed |
+| `da` | Danish | Complete (AI generated) | Contributor needed |
+| `de` | German | Complete (AI generated) | Contributor needed |
+| `en` | English | Complete | Used for default internal pylyglot messages. |
+| `es` | Spanish | Complete (AI generated) | Contributors welcome, verified by a human. |
+| `fi` | Standard Finnish (suomi) | Complete (AI generated) | Contributor needed |
+| `fr` | French | Complete | Mostly manually translated. Fully verified. |
+| `ha` | Hausa | Complete (AI generated) | Contributor needed |
+| `hi` | Hindi | Complete (AI generated) | Contributor needed, "uses Devanagari script" |
+| `is` | Icelandic | Complete (AI generated) | Contributor needed |
+| `it` | Italian | Complete (AI generated) | Contributor needed |
+| `ja` | Japanese | Complete (AI generated) | Contributor needed |
+| `ko` | Korean | Complete (AI generated) | Contributor needed, "Hangul script" |
+| `nb` | Norwegian Bokmål | Complete (AI generated) | Contributor needed |
+| `nl` | Dutch | Complete (AI generated) | Contributor needed |
+| `pl` | Polish | Complete (AI generated) | Contributor needed |
+| `pt` | Portuguese | Complete | Default, points to `pt_br` |
+| `pt_br` | Portuguese (Brazil) | Complete | Mostly manually translated. Fully verified. |
+| `pt_rj` | Portuguese (Rio de Janeiro) | In progress | Informal (contains slang) |
+| `ru` | Russian | Complete (AI generated) | Contributor needed |
+| `sv` | Swedish | Complete (AI generated) | Contributor needed |
+| `sw` | Swahili | Complete (AI generated) | Contributor needed |
+| `uk` | Ukranian | Complete (AI generated) | Contributor needed |
+| `yo` | Yoruba | Complete (AI generated) | Contributor needed |
+| `zh` | Simplified Chinese | Complete (AI generated) | Contributor needed |
