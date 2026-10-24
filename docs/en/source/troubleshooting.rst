@@ -30,21 +30,24 @@ ImportError: cannot import name 'X' from 'Y'
 Consider this function defined in a portuguese file
 (``test.pt_br.py``):
 
-.. figure:: _static/soma_fn.png
+.. code-block:: text
+
+    def somar(x, y):
+        retornar x + y
 
 When we try:
 
 .. code-block:: python
 
-    from test import soma
+    from test import somar
 
 We get :
 
 .. code-block:: text
 
-    ImportError: cannot import name 'soma' from 'test' (.../test.pt_br.py)
+    ImportError: cannot import name 'somar' from 'test' (.../test.pt_br.py)
 
-"soma" is the name of the builtin "sum" in portuguese.
+"somar" is the name of the builtin "sum" in portuguese.
 This portuguese file is replacing the builtin sum function
 by a custom one (which is a completely valid thing to do
 in python, this is a feature, not a bug).

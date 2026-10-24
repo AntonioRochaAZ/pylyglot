@@ -107,7 +107,7 @@ dictionary = {
     "ordinare":     "sorted",
     "metodostatico":"staticmethod",
     "txt":          "str",
-    "somma":        "sum",
+    "sommare":        "sum",
     "super":        "super",
     "tupla":        "tuple",
     "tipo":         "type",

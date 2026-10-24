@@ -124,7 +124,7 @@ dictionary = {
     "ordenar":  "sorted",
     "métodoestático":   "staticmethod",
     "str":      "str",
-    "soma":     "sum",
+    "somar":     "sum",
     "super":    "super",
     #T
     "tupla":    "tuple",
@@ -142,7 +142,7 @@ dictionary = {
  
     #Dunder methods: https://www.pythonmorsels.com/every-dunder-method/#cheat-sheet
     "__inic__":                 "__init__",
-    "__new__":                  "__new__",
+    "__novo__":                  "__new__",
     "__del__":                  "__del__",
     "__ig__":                   "__eq__",
     "__desig__":                "__ne__",

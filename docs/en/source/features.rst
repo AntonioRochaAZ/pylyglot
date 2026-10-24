@@ -198,9 +198,9 @@ objects imported from other modules may have names which clash with the
 pylyglot module's language.
 For example, the following portuguese python code:
 
-``de utils importar soma``
+``de utils importar somar``
 
-Would try to import object "soma" from module "utils". However, "soma" means "sum"
+Would try to import object "somar" from module "utils". However, "somar" means "sum"
 in Portuguese,
 and the translation of this line would end up giving 
 ``from utils import sum``, which would be
@@ -217,9 +217,9 @@ which completely ignores the line during the translation process
 
 .. code-block:: python
     
-    from utils import soma as soma_en # pylyglot: keep
+    from utils import somar as somar_en # pylyglot: keep
 
-By using ``import soma as soma_en``, we can safely call the right
-function through its alias (``soma_en``) in the rest of the code,
+By using ``import somar as somar_en``, we can safely call the right
+function through its alias (``somar_en``) in the rest of the code,
 avoiding having to use this feature at every call.
 

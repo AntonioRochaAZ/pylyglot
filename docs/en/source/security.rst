@@ -19,9 +19,9 @@ For example, the following portuguese python code:
 
 .. code-block:: python
     
-    de utils importar soma
+    de utils importar somar
 
-Would try to import object "soma" from module "utils". However, "soma" means "sum"
+Would try to import object "somar" from module "utils". However, "somar" means "sum"
 in Portuguese (the name of the python builtin),
 and the translation of this line would end up giving 
 ``from utils import sum``, which would be

@@ -104,10 +104,10 @@ dictionary = {
     "ens":          "set",
     "défatr":       "setattr",
     "tranche":      "slice",
-    "trier":        "sorted",
+    "trié":        "sorted",
     "méthodestatique": "staticmethod",
     "chn":        "str",
-    "somme":        "sum",
+    "sommer":        "sum",
     "super":        "super",
     "tuple":        "tuple",
     "type":         "type",
@@ -148,7 +148,7 @@ dictionary = {
     "__inversé__":              "__reversed__",
     "__suiv__":              "__next__",
     "__manquant__":             "__missing__",
-    "__indictaille__":          "__length_hint__",
+    "__indice_taille__":          "__length_hint__",
     "__appeler__":              "__call__",
 
     # Arithmetic
@@ -163,8 +163,8 @@ dictionary = {
     "__et__":                   "__and__",
     "__ou__":                   "__or__",
     "__ouexc__":                  "__xor__",
-    "__decdr__":                "__rshift__",
-    "__decgch__":               "__lshift__",
+    "__décdr__":                "__rshift__",
+    "__décgch__":               "__lshift__",
     # Right versions
     "__adddr__":                  "__radd__",
     "__sousdr__":                 "__rsub__",
