@@ -31,27 +31,29 @@ Adding a new language
     in the Github repository.
     
     - ``dictionary`` (language -> English): largest mapping of translated keywords to their English
-      Python equivalents.
+      counterparts.
     - ``exception_dictionary`` (language -> english): mapping exception names to their original version.
     - ``traceback_dictionary`` (english -> language): for error-message translations.
     - ``pylyglot_internal_messages`` (key -> language): mapping of internal pylyglot keys to their
       messages. Note that these strings contain variables in brackets, which will be
       later formatted with "format". Do not change the name of those variables.
 
-    These translations must follow regular python's terms but also common sense
+    These translations must follow regular python's terms, but also common sense
     and the terms commonly used in the language in their context. Sometimes, 
-    very technical terms are
-    referred to by their english names, even in other languages. In this case,
-    leaving the term untranslated may be the best choice. To emphasize this,
-    please create an entry in the dictionary with the "non-translation" (the english
+    very technical terms may be more commonly
+    referred to by their English names, even in other languages. In this case,
+    leaving the term untranslated may be the best choice (potentially spelled
+    differently, if it is what is common). To emphasize this,
+    please create an entry in the dictionary with the "non-translation" (the English
     term mapping to itself). 
     
     Make sure you understand the meaning of the term before translating it, so that
     the translation is accurate.
 
-    Maintain as much as possible the python syntax (for example, the ``classmethod``
+    Keep the result *as close as reasonably possible* to the python syntax 
+    (for example, the ``classmethod``
     keyword translation should still be written as one word, as opposed to something
-    like ``class_method``).
+    like ``class_method``). This also extends to abbreviations/shortened terms.
 
 3.  Add the following lines to the end of your script to integrate the exception
     messages to both the regular dicitonary and the traceback one:
@@ -66,9 +68,8 @@ Adding a new language
 
 .. note::
     Defining "informal" languages (such as "pirate english" or variants
-    using slang) is permitted. 
+    using slang) is permitted!
     However, no slurs or derogatory terms will be accepted.  
-
 
 Running tests
 -------------
@@ -76,3 +77,11 @@ Running tests
 Run the tests using `pytest <https://pypi.org/project/pytest/>`_
 and make sure there are no errors before opening a pull request.
 Simply run "``pytest``" from the base folder.
+
+VSCode extension
+----------------
+
+Propose a set of two colours for the new language in the ``icon_theme.py``
+file of the `VSCode extension <https://marketplace.visualstudio.com/items?itemName=AntonioRochaAZ.pylyglot>`_ 
+repository. I'll (the maintainer) will be in charge of updating the rest
+when the next pylyglot update is to be released.

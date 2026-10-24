@@ -74,7 +74,7 @@ Considerations
   otherwise expect the translator to catch as well.
 
   .. todo::
-      Add a regular expression to identify this, potentially.
+      Potentially add a regular expression to identify this.
 
 - **Import hooks are process-wide.** Installing Pylyglot's hooks affects
   ``sys.path_hooks``/``sys.meta_path`` for the whole interpreter session,

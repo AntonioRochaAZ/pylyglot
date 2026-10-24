@@ -4,11 +4,13 @@ Installation
 Using pip
 ---------
 
-Pylyglot is not (yet) at PyPI, but will be soon. However, it is already available from Test PyPI 
-(the sandboxed version of PyPI which is used for testing) and can be installed with:
+Pylyglot is now available at PyPI !
 
-``pip install -i https://test.pypi.org/simple/ pylyglot``
+``pip install pylyglot``
 
+We would like to thank `Aaquinas <https://gitlab.com/Aaquinas>`_ 
+for kindly giving up the package name so we could use it in
+this project.
 
 Cloning from source
 -------------------

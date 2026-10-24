@@ -274,7 +274,7 @@ def translate_and_write(src_path: str, dst_path: str, output_language, **transla
         current_version = "unknown"
     
     header = f"# pylyglot: {output_language} # version: {current_version} #\n"
-    lines = translated.splitlines(keepends=True)
+    lines = translated.splitlines(keepends=False)
     # Check for the #!/bin/sh-type line and keep it if it is the case.
     # Also check for the pylyglot header.
     line_idx = 0
@@ -284,9 +284,9 @@ def translate_and_write(src_path: str, dst_path: str, output_language, **transla
     if LANGUAGE_RE.match(lines[line_idx].strip()):
         line_idx += 1 # Replace old header
 
-    output = header + "".join(lines[line_idx:])
+    output = header + "\n".join(lines[line_idx:])
 
-    # Make directory path if not existant:
+    # Make directory path if non-existant:
     os.makedirs(os.path.dirname(dst_path) or ".", exist_ok=True)
     # Write file:
     with open(dst_path, "w", encoding=translate_file_options["output_encoding"]) as f:
@@ -306,9 +306,8 @@ def make_excepthook(language: str):
     def pylyglot_excepthook(typ, value, tb):
         lines = traceback.format_exception(typ, value, tb)
         if typ is SyntaxError:
-            lines.append(get_pylyglot_message(config.options["default_language"], "translator_syntaxerror")) 
-                #< TODO: add checks for python keywords in the line of code.
-        
+            lines.append(get_pylyglot_message(language, "translator_syntaxerror")) 
+                
         for line in lines:
             print(translate_traceback_line(line, traceback_dictionary), end='', file=sys.stderr)
     return pylyglot_excepthook

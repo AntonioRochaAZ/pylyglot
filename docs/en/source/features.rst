@@ -1,8 +1,19 @@
 Features
 ========
 
-.. tip::
-    All features at a glance on the list on the right of the page →
+Here are pylyglot's features at a glance !
+
+- :ref:`feat-language_extensions`
+- :ref:`feat-running`
+- :ref:`feat-codebase`
+- :ref:`feat-translating`
+- :ref:`feat-console`
+- :ref:`feat-traceback`
+- :ref:`feat-internal_messages`
+- :ref:`feat-smart_translation`
+- :ref:`feat-security`
+
+.. _feat-language_extensions:
 
 Language extensions
 -------------------
@@ -39,6 +50,8 @@ first line of your module, and have the pylyglot comment as the second line!
     in the directory (e.g. main.py and main.fr.py), an ``ImportError``
     is triggered.
 
+.. _feat-running:
+
 Running pylyglot files directly
 -------------------------------
 
@@ -46,44 +59,7 @@ By running ``python -m pylyglot your_pylyglot_file``, you can run your
 pylyglot code directly, without having to translate it to regular python.
 
 
-Translate files (and codebases) to and from different languages
----------------------------------------------------------------
-
-.. todo::
-    Insert image with regular python adn two other languages in a triangle.
-
-This can be done with the --translate option when running pylyglot:
-
-.. code-block:: bash
-
-    python -m pylyglot --translate[=<destination_language_code>] <source> <destination>
-
-Specifying the destination language is optional if the destination contains a language
-extension. The options ``<source>`` and ``<destination>`` can be folders. In that
-case, all python and pylyglot files in the source folder (and folders inside those
-folders etc.) will be translated to the desired language and stored in the same
-structure in the destination folder. 
-
-.. seealso::
-    :ref:`Our dedicated section to the command line options. <clo>`
-
-Interactive console
--------------------
-
-.. todo::
-    Add Figure.
-
-Pylyglot also allows for an interactive console in which you can write in your 
-language. 
-
-.. code-block:: bash
-
-    python -m pylyglot --console=<language_code>
-
-
-.. seealso::
-    :ref:`Our dedicated section to the command line options. <clo>`
-
+.. _feat-codebase:
 
 Running a multilingual code base seamlessly
 -------------------------------------------
@@ -121,6 +97,73 @@ and test it by running ``python -m pylyglot main.py``.
 This integration also means that error tracebacks will show the proper line 
 numbers and module paths!
 
+.. _feat-translating:
+
+Translate files (and codebases) to and from different languages
+---------------------------------------------------------------
+
+.. figure:: _static/pylyglot_cut.png
+
+This can be done with the --translate option when running pylyglot:
+
+.. code-block:: bash
+
+    python -m pylyglot --translate[=<destination_language_code>] <source> <destination>
+
+Specifying the destination language is optional if the destination contains a language
+extension. The options ``<source>`` and ``<destination>`` can be folders. In that
+case, all python and pylyglot files in the source folder (and folders inside those
+folders etc.) will be translated to the desired language and stored in the same
+structure in the destination folder. 
+
+.. seealso::
+    :ref:`Our dedicated section to the command line options. <clo>`
+
+.. _feat-console:
+
+Interactive console
+-------------------
+
+.. figure:: _static/console.png
+
+Pylyglot also allows for an interactive console in which you can write in your 
+language. 
+
+.. code-block:: bash
+
+    python -m pylyglot --console=<language_code>
+
+
+.. seealso::
+    :ref:`Our dedicated section to the command line options. <clo>`
+
+
+.. _feat-traceback:
+
+Traceback message translation
+-----------------------------------
+
+Some common traceback phrases are also translated by pylyglot 
+(e.g. "Traceback (most recent call last):").
+
+
+.. _feat-internal_messages:
+
+Translated pylyglot messages
+----------------------------
+
+Internal pylyglot messages are also translated to all supported
+languages. By setting your default language, any pylyglot errors
+and warnings will be shown in your default language.
+
+To set your default language:
+
+.. code-block:: bash
+
+    python -m pylyglot --setconfig default_language=<language_code>
+
+.. _feat-smart_translation:
+
 Smart translation
 -----------------
 
@@ -130,6 +173,8 @@ comments and docstrings, for example!
 
 Some things can still be lost in translation, which we adress in the next 
 section.
+
+.. _feat-security:
 
 Security against name clashes and English fallback
 --------------------------------------------------
@@ -178,21 +223,3 @@ By using ``import soma as soma_en``, we can safely call the right
 function through its alias (``soma_en``) in the rest of the code,
 avoiding having to use this feature at every call.
 
-Traceback message translation
------------------------------------
-
-Some common traceback phrases are also translated by pylyglot 
-(e.g. "Traceback (most recent call last):").
-
-Translated pylyglot messages
-----------------------------
-
-Internal pylyglot messages are also translated to all supported
-languages. By setting your default language, any pylyglot errors
-and warnings will be shown in your default language.
-
-To set your default language:
-
-.. code-block:: bash
-
-    python -m pylyglot --setconfig default_language=<language_code>
