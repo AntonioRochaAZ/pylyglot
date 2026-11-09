@@ -1,0 +1,61 @@
+// Default correlation between code file extension and json file name:
+{
+    "extensions": {
+        "py": "python",
+
+        "c": "c",
+        "h": "c",
+
+        "cpp": "cpp",
+        "hpp": "cpp",
+        "cxx": "cpp",
+        "hxx": "cpp",
+        "cc":  "cpp",
+        "hh":  "cpp",
+
+        "f":   "fortran",
+        "for": "fortran",
+        "f78": "fortran",
+        "f90": "fortran",
+        "f95": "fortran",
+        "f03": "fortran",
+        "f15": "fortran",
+
+        "F":   "fortran",
+        "FOR": "fortran",
+        "F78": "fortran",
+        "F90": "fortran",
+        "F95": "fortran",
+        "F03": "fortran",
+        "F15": "fortran"
+    },
+    "comment_symbol": {
+        "py": "#",
+
+        "c": "//",
+        "h": "//",
+
+        "cpp": "//",
+        "hpp": "//",
+        "cxx": "//",
+        "hxx": "//",
+        "cc":  "//",
+        "hh":  "//",
+
+        "f":   "!",
+        "for": "!",
+        "f78": "!",
+        "f90": "!",
+        "f95": "!",
+        "f03": "!",
+        "f15": "!",
+
+        "F":   "!",
+        "FOR": "!",
+        "F78": "!",
+        "F90": "!",
+        "F95": "!",
+        "F03": "!",
+        "F15": "!"
+    }
+}
