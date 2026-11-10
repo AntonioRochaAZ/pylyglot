@@ -3,7 +3,7 @@ from typing import List
 from types import ModuleType
 from pathlib import Path
 
-from pylyglot.translator import get_language_module
+from pylyglot.translator import get_language_class
 
 def get_languages_folder() -> Path:
     with importlib.resources.path("pylyglot", "languages") as path:
@@ -20,7 +20,7 @@ def get_language_file_list() -> List[str]:
 
 def get_all_language_modules() -> List[ModuleType]:
     language_list = get_language_file_list()
-    module_list = [get_language_module(lang.removesuffix(".py")) for lang in language_list]
+    module_list = [get_language_class(lang.removesuffix(".py")) for lang in language_list]
     return module_list
 
 def get_all_language_sources() -> List[str]:

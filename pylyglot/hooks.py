@@ -2,7 +2,7 @@ import sys, os, re
 import importlib.machinery
 
 from .translator import translate_file, get_pylyglot_message
-from .utils import get_source_suffixes
+from .utils import get_python_source_suffixes
 
 from . import debug
 from . import config
@@ -13,7 +13,9 @@ class PylyglotSourceFileLoader(importlib.machinery.SourceFileLoader):
         """Translates file and returns compiled version"""
         if debug.VERBOSE_LEVEL >= 2:  print(f"> hooks.PylyglotSourceFileLoader.get_code(): self.path: {self.path}")
         translated = translate_file(
-            self.path, encoding=config.options["input_encoding"], 
+            self.path, 
+            output_language="en",
+            encoding=config.options["input_encoding"], 
             errors=config.options["encoding_errors"]
         )
         if debug.VERBOSE_LEVEL >= 3:  print(f"> hooks.PylyglotSourceFileLoader.get_code(): translated file:\n{translated}")
@@ -46,7 +48,7 @@ def install():
     """Insert the pylyglot finder into sys.path_hooks."""
     if not any([isinstance(f, PylyglotFileFinder) for f in sys.path_hooks]):
         if debug.VERBOSE_LEVEL >= 2:  print("> hooks.install(): Installing hooks...")
-        extension_list = get_source_suffixes()
+        extension_list = get_python_source_suffixes()
         if debug.VERBOSE_LEVEL >= 2:  print(f"> hooks.install(): source suffixes: {extension_list}")
 
         loader_details = [
