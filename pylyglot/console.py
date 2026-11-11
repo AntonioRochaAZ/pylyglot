@@ -1,7 +1,7 @@
 import sys, code, traceback
 from importlib.metadata import version as get_version
 from .translator import translate_source, get_language_class, translate_traceback_line, make_excepthook
-
+from .language import LanguageClass
 """
 # One could make a displayhook for translating some types when repr()
 # in the console (for example). However, this could cause inconsistencies
@@ -39,7 +39,7 @@ class PylyglotConsole(code.InteractiveConsole):
 
     def runsource(self, source, filename="<input>", symbol="single"):
         """Translates source, then call's super().runsource()."""
-        translated = translate_source(source, self.dictionary)
+        translated = translate_source(source, self.dictionary, LanguageClass.get_token_identifier_fn("python"))
         return super().runsource(translated, filename, symbol)
 
 

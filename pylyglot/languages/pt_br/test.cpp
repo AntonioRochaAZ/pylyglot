@@ -2,7 +2,12 @@
 #include <iostream>
 
 void main(){
-    int *i = 0.0;
+    int *i = 0;
     std::cout << "Teste" << std::endl;
-    return
+    if (*i == 0) {
+        i++;
+    } else {
+        i--;
+    }
+    return;
 }

@@ -3,12 +3,14 @@ import importlib.resources
 from typing import List
 
 from . import jsonc
+from . import config
 
 def get_known_programming_language_extensions_dict() -> dict[str, str]:
     """Gets all supported programming language extensions"""
-    with importlib.resources.path("pylyglot", "languages", "programming_languages.jsonc") as path:
+    with importlib.resources.path("pylyglot", "languages") as path:
+        path = path/"programming_languages.jsonc"
         print(path, os.path.exists(path))
-        with open(path, "r") as f:
+        with open(path, "r", encoding=config.options["input_encoding"]) as f:
             json_file = jsonc.load(f)
     return json_file["extensions"]
 
@@ -21,7 +23,8 @@ def get_supported_language_codes() -> List[str]:
 
 def get_supported_programming_languages(language: str) -> List[str]:
     """Gets all supported programming languages for a specified language"""
-    with importlib.resources.path("pylyglot", "languages", language) as path:
+    with importlib.resources.path("pylyglot", "languages") as path:
+        path = path/language
         programming_language_list = os.listdir(str(path))
         programming_language_list = [f.split(".")[0] for f in programming_language_list if f.endswith('.jsonc') and not f.startswith("__")]
     return programming_language_list

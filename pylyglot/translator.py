@@ -1,5 +1,5 @@
 import tokenize, io, os, importlib, re, sys, traceback
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Callable
 from types import ModuleType
 from importlib.metadata import version as get_version, PackageNotFoundError 
 from warnings import warn
@@ -120,7 +120,7 @@ def detect_language(path: str, encoding: str="utf-8", errors="strict") -> Tuple[
     # Just in case:
     raise RuntimeError(f"Could not detect language of file: {path}.\nEncoding and error strategy used: enconding: {encoding}, errors: {errors}.")
 
-def identify_renames(source: str, dictionary: dict) -> dict:
+def identify_renames(source: str, dictionary: dict, tokenizer: Callable) -> dict:
     """
     Returns a rename map {original_name: safe_name} for any user-defined
     name that collides with a value of the dictionary (i.e. a keyword
@@ -138,7 +138,8 @@ def identify_renames(source: str, dictionary: dict) -> dict:
         A dictionary associating the original name of the variable with the new one.
     """
     # collect all names actually used in the source
-    tokens = list(tokenize.generate_tokens(io.StringIO(source).readline))
+    tokens = list(tokenizer(source))
+    print(tokens)
     all_names = {token for tok_type, token, *_ in tokens if tok_type == tokenize.NAME }
 
     dangerous_names = set()
@@ -161,7 +162,7 @@ def identify_renames(source: str, dictionary: dict) -> dict:
     
     return renames
 
-def translate_source(source: str, dictionary: dict, keep_lines: List[int] = None, debug: bool = False) -> str:
+def translate_source(source: str, dictionary: dict, tokenizer: Callable, keep_lines: List[int] = None, debug: bool = False) -> str:
     """Does the actual translation from one language to another (including regular python).
 
     This function is not supposed to be used standalon, as the dictionary
@@ -182,7 +183,7 @@ def translate_source(source: str, dictionary: dict, keep_lines: List[int] = None
     """
     if keep_lines is None: keep_lines = list()
 
-    tokens = tokenize.generate_tokens(io.StringIO(source).readline)
+    tokens = tokenizer(source)
     if debug: print(list(tokens))
     result = []
     for tok_type, tok_string, tok_start, tok_end, tok_line in tokens:
@@ -248,7 +249,7 @@ def translate_file(
             }
     
     # Avoid translating a variable into a keyword:
-    rename_dict = identify_renames(source, dictionary)
+    rename_dict = identify_renames(source, dictionary, lc.prog_tokenizer)
     if len(rename_dict) != 0:
         if str(config.options["allow_renames"]).lower() == "true":
             # allow with warnings
@@ -268,7 +269,7 @@ def translate_file(
         if KEEP_LINE_RE.search(line) is not None
     ]
 
-    output = translate_source(source, dictionary, keep_lines=keep_lines)
+    output = translate_source(source, dictionary, lc.prog_tokenizer, keep_lines=keep_lines)
     if return_lc:
         output = (output, lc)
     return output

@@ -1,4 +1,6 @@
 import importlib
+from typing import Callable
+
 from .utils import (
     get_supported_language_codes, 
     get_known_programming_language_extensions_dict,
@@ -6,6 +8,7 @@ from .utils import (
 )
 
 from . import jsonc
+from . import config
 
 def get_prog_lang_info(extension: str):
     """
@@ -14,8 +17,9 @@ def get_prog_lang_info(extension: str):
     This is particularly necessary for getting the comment symbol
     associated to the programming language.
     """
-    with importlib.resources.path("pylyglot", "languages", "programming_languages.jsonc") as path:
-        with open(path, "r") as f:
+    with importlib.resources.path("pylyglot", "languages") as path:
+        path = path/"programming_languages.jsonc"
+        with open(path, "r", encoding=config.options["input_encoding"]) as f:
             json_file = jsonc.load(f)
 
     info = {
@@ -52,12 +56,14 @@ class LanguageClass:
         self.programming_language_extension = programming_language_extension
         self.programming_language = programming_language
         self.prog_lang_info = get_prog_lang_info(programming_language_extension)
+        self.prog_tokenizer = self.get_token_identifier_fn(programming_language)
 
         # Loading dictionaries:
-        with importlib.resources.path("pylyglot", "languages", language, f"{programming_language}.jsonc") as path:
+        with importlib.resources.path("pylyglot", "languages") as path:
+            path = path/language/f"{programming_language}.jsonc"
             import os
             print(path, os.path.exists(path))
-            with open(path, "r") as f:
+            with open(path, "r", encoding=config.options["input_encoding"]) as f:
                 json_file = jsonc.load(f, debug=True)
         # Setting class' attributes:
         for key, value in json_file.items():
@@ -79,3 +85,76 @@ class LanguageClass:
             # If not defined, set to empty dictionary and return:
             setattr(self, attr, {})
             return getattr(self, attr)
+
+    @staticmethod
+    def get_token_identifier_fn(programming_language: str) -> Callable:
+
+        if programming_language == "python":
+            import tokenize, io 
+            def get_python_tokens(src: str):
+                return tokenize.generate_tokens(io.StringIO(src).readline)
+            return get_python_tokens
+        elif programming_language == "fortran":
+            try:
+                import tokenize, re
+                from fparser.common.readfortran import FortranStringReader
+                from fparser.common.sourceinfo import FortranFormat
+
+
+                # Fortran lexical patterns
+                TOKEN_RE = re.compile(
+                    r"""('[^']*(?:''[^']*)*'|"[^"]*(?:""[^"]*)*")"""  # Strings
+                    r"""|([A-Za-z_]\w*)"""                              # Names
+                    r"""|(\d+(?:\.\d*)?(?:[EeDd][+-]?\d+)?"""          # Numbers
+                    r"""|\.\d+(?:[EeDd][+-]?\d+)?)"""
+                    r"""|(::|=>|\*\*|//|<=|>=|/=|==|[+\-*/=<>(),;:%.\[\]])"""  # Operators
+                )
+
+                def generate_fortran_tokens(source: str, isfree: bool = True):
+                    """Generate Python-tokenize-compatible tokens from Fortran source."""
+
+                    reader = FortranStringReader(source, ignore_comments=False)
+                    reader.set_format(FortranFormat(isfree, True))
+
+                    line_num = 1
+
+                    while True:
+                        try:
+                            item = reader.next()
+                        except StopIteration:
+                            break
+
+                        line = item.line
+
+                        if hasattr(item, "comment"):
+                            line = item.comment
+                            yield (tokenize.COMMENT, line, (line_num, 0),
+                                (line_num, len(line)), line)
+                        else:
+                            for match in TOKEN_RE.finditer(line):
+                                text = match.group()
+
+                                if match.group(1):
+                                    tok_type = tokenize.STRING
+                                elif match.group(2):
+                                    tok_type = tokenize.NAME
+                                elif match.group(3):
+                                    tok_type = tokenize.NUMBER
+                                else:
+                                    tok_type = tokenize.OP
+
+                                start = (line_num, match.start())
+                                end = (line_num, match.end())
+
+                                yield (tok_type, text, start, end, line)
+
+                            yield (tokenize.NEWLINE, "\n",
+                                (line_num, len(line)),
+                                (line_num, len(line) + 1), line)
+
+                        line_num += 1
+                
+                return generate_fortran_tokens
+            except ImportError as e:
+                raise ImportError("Must install fparser package (pip install fparser) for translating FORTRAN code")
+            

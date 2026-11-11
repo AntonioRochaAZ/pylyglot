@@ -1,12 +1,12 @@
 {
     "dictionary": {
-        "incluir": "include",
+        "#incluir": "#include",
         "se":         "if",
         "senãose":    "elseif",
         "senão":      "else",
         "int":        "int",
         "vazio":       "void",
-        "std::diz":     "std::cout",
-        "std::fimdlinha":     "std::endl"
+        "diz":          "cout",
+        "fimdlinha":     "endl"
     }
 }
