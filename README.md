@@ -1,5 +1,6 @@
 # Pylyglot: write and run python code on your native language
 
+![](https://antoniorochaaz.github.io/pylyglot/_images/PYLYGLOT+logo.png)
 ![](https://antoniorochaaz.github.io/pylyglot/_images/pylyglot.png)
 
 [Pylyglot documentation](https://antoniorochaaz.github.io/pylyglot/)

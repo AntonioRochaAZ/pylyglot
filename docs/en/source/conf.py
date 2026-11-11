@@ -39,10 +39,10 @@ exclude_patterns = []
 
 html_title = "Pylyglot"
 html_favicon = '_static/favicon.ico'
-html_theme = 'furo'
 html_static_path = ['_static']
 # conf.py
 html_theme = "furo"
+html_logo = "_static/LOGO.png"
 html_theme_options = {
     "light_css_variables": {
         # "color-background-primary": "#fdfdfd",

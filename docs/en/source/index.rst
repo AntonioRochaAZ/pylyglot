@@ -1,7 +1,8 @@
 .. _en_index:
 
-Pylyglot: write and run python code on your native language
 ===========================================================
+
+.. figure:: _static/PYLYGLOT_SCALED_UP.png
 
 .. image:: _static/pylyglot.png
 
