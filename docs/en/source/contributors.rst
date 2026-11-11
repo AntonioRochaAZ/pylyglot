@@ -15,3 +15,6 @@ Acknowledgements
 -   We would like to thank the Python Software Foundation for 
     permission to use derived versions of the Python logo in the
     VSCode extension.
+
+
+.. figure:: _static/PYLYGLOT+logo.png
